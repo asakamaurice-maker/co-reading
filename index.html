@@ -5,377 +5,413 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-title" content="共读小屋">
-<title>共读小屋 · 柰柰 & Claude</title>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=LXGW+WenKai:wght@300;400;700&display=swap" rel="stylesheet">
+<title>共读小屋</title>
 <style>
-*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-body{font-family:'LXGW WenKai',serif;background:#FAF6F0;color:#3A3028;overflow-x:hidden;min-height:100vh;min-height:100dvh}
-::-webkit-scrollbar{width:4px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:#E8DFD4;border-radius:2px}
-input,textarea{font-family:'LXGW WenKai',serif;outline:none}
-input:focus,textarea:focus{border-color:#B8860B!important}
-.btn{padding:8px 16px;border-radius:20px;border:1px solid #E8DFD4;background:#FFFDF8;color:#3A3028;cursor:pointer;font-family:'LXGW WenKai',serif;font-size:13px}
-.btn-p{padding:8px 16px;border-radius:20px;border:none;background:#B8860B;color:#fff;cursor:pointer;font-family:'LXGW WenKai',serif;font-size:13px}
-.btn-s{padding:4px 8px;border-radius:20px;border:1px solid #E8DFD4;background:#FFFDF8;color:#3A3028;cursor:pointer;font-family:'LXGW WenKai',serif;font-size:10px}
-.header{padding:16px;border-bottom:1px solid #E8DFD4;background:#FFFDF8;display:flex;align-items:center;justify-content:space-between;box-shadow:0 1px 6px rgba(139,115,85,0.08)}
-.page{display:none}.page.active{display:block}
-.book-grid{display:flex;flex-wrap:wrap;gap:18px}
-.book-card{width:125px;height:180px;border-radius:3px 10px 10px 3px;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:16px 12px;position:relative;overflow:hidden;cursor:pointer;box-shadow:3px 3px 12px rgba(139,115,85,0.08)}
-.book-card .spine{position:absolute;left:0;top:0;bottom:0;width:5px;background:rgba(0,0,0,0.15)}
-.book-card .title{font-family:'Noto Serif SC',serif;font-size:14px;font-weight:700;color:#fff;text-align:center;line-height:1.5;text-shadow:0 1px 2px rgba(0,0,0,0.3);word-break:break-all}
-.book-card .author{font-size:11px;color:rgba(255,255,255,0.7);margin-top:8px}
-.book-del{position:absolute;top:-6px;right:-6px;width:20px;height:20px;border-radius:50%;border:none;background:#c0392b;color:#fff;font-size:11px;cursor:pointer;display:flex;align-items:center;justify-content:center}
-.modal-bg{position:fixed;inset:0;background:rgba(0,0,0,0.4);display:flex;align-items:center;justify-content:center;z-index:1000}
-.modal{background:#FFFDF8;border-radius:16px;padding:26px;width:min(88vw,400px);box-shadow:0 16px 48px rgba(0,0,0,0.15)}
-.modal h2{font-family:'Noto Serif SC',serif;font-size:19px;margin-bottom:18px;color:#B8860B}
-.modal label{font-size:12px;color:#8C7B6B;display:block;margin-bottom:4px}
-.modal input[type=text]{width:100%;padding:10px 12px;border-radius:10px;border:1px solid #E8DFD4;font-size:14px;background:#FAF6F0;box-sizing:border-box}
-.reader-header{padding:10px 12px;background:#FFFDF8;border-bottom:1px solid #E8DFD4;display:flex;align-items:center;gap:6px}
-.reader-title{flex:1;text-align:center;min-width:0}
-.reader-title h3{font-family:'Noto Serif SC',serif;font-size:13px;font-weight:600;color:#B8860B;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.reader-title small{font-size:10px;color:#8C7B6B}
-.chapter-title{font-family:'Noto Serif SC',serif;font-size:19px;font-weight:700;text-align:center;margin-bottom:28px;color:#3A3028;letter-spacing:1.5px;line-height:1.5}
-.para{font-family:'Noto Serif SC',serif;font-size:15px;line-height:2;text-indent:2em;color:#3A3028;cursor:pointer;padding:2px 6px;border-radius:4px;margin:0 0 2px;position:relative;border-left:3px solid transparent}
-.para.has-anno{background:linear-gradient(to right,transparent,#FDF5EE);border-left-color:#B8860B}
-.para.selected{background:#F5EDE3}
-.para .badge{position:absolute;right:2px;top:1px;font-size:9px;color:#B8860B;font-family:'LXGW WenKai',serif}
-.anno-box{padding:8px 8px 8px 12px}
-.bubble{padding:10px 12px;border-radius:10px;margin-bottom:6px}
-.bubble.nainai{background:#FDF5EE;border:1px solid #E8D5C4}
-.bubble.claude{background:#EEF4FA;border:1px solid #C4D8EC}
-.bubble .who{font-size:11px;font-weight:700}
-.bubble .who.n{color:#A0775A}.bubble .who.c{color:#5B7FA5}
-.bubble .time{font-size:10px;color:#8C7B6B}
-.bubble .hl{font-size:11px;color:#8C7B6B;font-style:italic;padding-left:8px;margin-bottom:6px;line-height:1.5}
-.bubble .hl.n{border-left:2px solid #A0775A}.bubble .hl.c{border-left:2px solid #5B7FA5}
-.bubble .txt{font-size:13px;line-height:1.8;color:#3A3028}
-.toc-overlay{position:absolute;inset:0;z-index:10;display:flex}
-.toc-panel{width:220px;background:#FFFDF8;overflow-y:auto;box-shadow:4px 0 16px rgba(0,0,0,0.1);padding:14px}
-.toc-item{padding:6px 8px;border-radius:6px;cursor:pointer;font-size:12px;margin-bottom:2px;line-height:1.4}
-.toc-item.active{background:#F5EDE3;color:#B8860B;font-weight:600}
-.nav-bar{display:flex;justify-content:space-between;align-items:center;padding:28px 0 44px;border-top:1px solid #E8DFD4;margin-top:28px}
-.empty{text-align:center;padding:60px 14px}
-.empty .icon{font-size:44px;margin-bottom:12px}
-.empty h3{font-family:'Noto Serif SC',serif;font-size:17px;margin-bottom:6px}
-.empty p{font-size:13px;color:#8C7B6B;margin-bottom:18px}
-.comment-row{display:flex;gap:6px;margin-top:4px}
-.comment-row textarea{flex:1;padding:8px 10px;border-radius:10px;border:1px solid #E8DFD4;font-size:12px;resize:none;height:44px;background:#FFFDF8;line-height:1.5}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,sans-serif;background:#FAF6F0;color:#3A3028}
+.hd{padding:14px 16px;background:#FFFDF8;border-bottom:1px solid #E8DFD4;display:flex;align-items:center;justify-content:space-between}
+.hd h1{font-size:18px;color:#B8860B;letter-spacing:1px}
+.hd small{font-size:10px;color:#8C7B6B;display:block;margin-top:2px}
+.btn{padding:8px 14px;border-radius:18px;border:1px solid #E8DFD4;background:#FFFDF8;color:#3A3028;font-size:13px}
+.pri{padding:8px 14px;border-radius:18px;border:none;background:#B8860B;color:#fff;font-size:13px}
+#app{padding:24px 16px}
+.empty{text-align:center;padding:60px 16px}
+.empty p{font-size:14px;color:#8C7B6B;margin:8px 0 16px}
+.grid{display:flex;flex-wrap:wrap;gap:16px}
+.card{width:120px;height:170px;border-radius:3px 10px 10px 3px;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:14px 10px;position:relative;cursor:pointer}
+.card span{font-size:13px;font-weight:700;color:#fff;text-align:center;line-height:1.4;word-break:break-all}
+.card small{font-size:10px;color:rgba(255,255,255,.7);margin-top:6px}
+.del{position:absolute;top:-6px;right:-6px;width:18px;height:18px;border-radius:50%;border:none;background:#c0392b;color:#fff;font-size:10px;cursor:pointer}
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,.4);display:flex;align-items:center;justify-content:center;z-index:99}
+.box{background:#FFFDF8;border-radius:14px;padding:24px;width:min(88vw,380px)}
+.box h2{font-size:18px;color:#B8860B;margin-bottom:16px}
+.box label{font-size:12px;color:#8C7B6B;display:block;margin:10px 0 4px}
+.box input[type=text]{width:100%;padding:8px 10px;border-radius:8px;border:1px solid #E8DFD4;font-size:14px;background:#FAF6F0}
+.box input[type=text]:focus{outline:none;border-color:#B8860B}
+.acts{display:flex;gap:8px;justify-content:flex-end;margin-top:16px}
+.rhd{padding:10px 12px;background:#FFFDF8;border-bottom:1px solid #E8DFD4;display:flex;align-items:center;gap:6px}
+.rhd .ti{flex:1;text-align:center;overflow:hidden}
+.rhd .ti h3{font-size:13px;color:#B8860B;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.rhd .ti small{font-size:10px;color:#8C7B6B}
+.sm{padding:4px 8px;border-radius:16px;border:1px solid #E8DFD4;background:#FFFDF8;color:#3A3028;font-size:10px}
+.sm.on{background:#B8860B;color:#fff;border:none}
+.ch-title{font-size:18px;font-weight:700;text-align:center;margin-bottom:24px;color:#3A3028;line-height:1.5}
+.pa{font-size:15px;line-height:2;text-indent:2em;padding:2px 6px;margin:0 0 2px;cursor:pointer;border-radius:4px;border-left:3px solid transparent;position:relative}
+.pa:active{background:#F5EDE3}
+.pa.hl{background:linear-gradient(to right,transparent,#FDF5EE);border-left-color:#B8860B}
+.pa .bc{position:absolute;right:2px;top:1px;font-size:9px;color:#B8860B}
+.an{padding:8px 8px 8px 12px}
+.bub{padding:10px 12px;border-radius:10px;margin-bottom:6px}
+.bub.me{background:#FDF5EE;border:1px solid #E8D5C4}
+.bub.cl{background:#EEF4FA;border:1px solid #C4D8EC}
+.bub .nm{font-size:11px;font-weight:700}
+.bub .nm.n{color:#A0775A}.bub .nm.c{color:#5B7FA5}
+.bub .ct{font-size:13px;line-height:1.8;margin-top:4px}
+.cr{display:flex;gap:6px;margin-top:4px}
+.cr textarea{flex:1;padding:8px;border-radius:8px;border:1px solid #E8DFD4;font-size:12px;resize:none;height:40px;font-family:inherit}
+.cr textarea:focus{outline:none;border-color:#B8860B}
+.nv{display:flex;justify-content:space-between;align-items:center;padding:24px 0 40px;border-top:1px solid #E8DFD4;margin-top:24px}
+.toc{position:fixed;top:0;left:0;bottom:0;width:220px;background:#FFFDF8;z-index:50;overflow-y:auto;padding:14px;box-shadow:4px 0 16px rgba(0,0,0,.1)}
+.toc-bg{position:fixed;inset:0;background:rgba(0,0,0,.2);z-index:49}
+.toc h3{font-size:14px;color:#B8860B;margin-bottom:10px}
+.toc div{padding:6px 8px;border-radius:6px;font-size:12px;cursor:pointer;margin-bottom:2px}
+.toc div.cur{background:#F5EDE3;color:#B8860B;font-weight:600}
+#debug{position:fixed;bottom:0;left:0;right:0;background:#333;color:#0f0;font-size:10px;padding:4px 8px;font-family:monospace;max-height:60px;overflow-y:auto;z-index:999;display:none}
 </style>
 </head>
 <body>
+<div id="debug"></div>
 
-<!-- Shelf Page -->
-
-<div id="shelf-page" class="page active">
-  <div class="header">
-    <div>
-      <div style="font-family:'Noto Serif SC',serif;font-size:19px;font-weight:700;color:#B8860B;letter-spacing:2px">共读小屋</div>
-      <div style="font-size:10px;color:#8C7B6B;margin-top:1px" id="shelf-sub">柰柰 & Claude 的阅读角</div>
-    </div>
-    <button class="btn-p" onclick="showUpload()">+ 新书</button>
+<div id="shelf">
+  <div class="hd">
+    <div><h1>共读小屋</h1><small>柰柰 & Claude 的阅读角</small></div>
+    <button class="pri" id="add-btn">+ 新书</button>
   </div>
-  <div style="padding:28px 16px" id="shelf-content"></div>
+  <div id="app"></div>
 </div>
 
-<!-- Reader Page -->
-
-<div id="reader-page" class="page">
-  <div class="reader-header">
-    <button class="btn-s" onclick="backToShelf()">← 书架</button>
-    <div class="reader-title"><h3 id="r-title"></h3><small id="r-sub"></small></div>
-    <button class="btn-s" id="anno-btn" onclick="toggleAnno()">批注</button>
-    <button class="btn-s" onclick="toggleToc()">目录</button>
+<div id="reader" style="display:none">
+  <div class="rhd">
+    <button class="sm" id="back-btn">← 书架</button>
+    <div class="ti"><h3 id="rt"></h3><small id="rs"></small></div>
+    <button class="sm on" id="abtn">批注</button>
+    <button class="sm" id="tbtn">目录</button>
   </div>
-  <div style="flex:1;overflow:hidden;position:relative;height:calc(100vh - 50px);height:calc(100dvh - 50px)" id="reader-wrap">
-    <div id="toc-overlay" class="toc-overlay" style="display:none">
-      <div class="toc-panel" id="toc-list"></div>
-      <div style="flex:1;background:rgba(0,0,0,0.2)" onclick="toggleToc()"></div>
-    </div>
-    <div id="reader-scroll" style="height:100%;overflow-y:auto;padding:24px 14px;display:flex;justify-content:center;-webkit-overflow-scrolling:touch">
-      <div style="max-width:600px;width:100%" id="reader-content"></div>
-    </div>
-  </div>
+  <div id="rc" style="overflow-y:auto;padding:20px 14px;-webkit-overflow-scrolling:touch"></div>
 </div>
 
-<!-- Upload Modal -->
+<div id="toc-bg" class="toc-bg" style="display:none"></div>
+<div id="toc" class="toc" style="display:none"></div>
 
-<div id="upload-modal" class="modal-bg" style="display:none">
-  <div class="modal">
+<div id="modal" class="overlay" style="display:none">
+  <div class="box">
     <h2>添加新书</h2>
-    <div style="margin-bottom:12px"><label>书名</label><input type="text" id="up-title"></div>
-    <div style="margin-bottom:12px"><label>作者</label><input type="text" id="up-author" placeholder="选填"></div>
-    <div style="margin-bottom:18px">
-      <label>上传 TXT</label>
-      <input type="file" accept=".txt" id="up-file" style="font-size:12px;font-family:'LXGW WenKai',serif">
-      <div id="up-info" style="margin-top:6px;font-size:12px;color:#8C7B6B"></div>
-    </div>
-    <div style="display:flex;gap:10px;justify-content:flex-end">
-      <button class="btn" onclick="hideUpload()">取消</button>
-      <button class="btn-p" id="up-go" onclick="doUpload()">开始阅读</button>
+    <label>书名</label>
+    <input type="text" id="m-title">
+    <label>作者（选填）</label>
+    <input type="text" id="m-author">
+    <label>上传 TXT 文件</label>
+    <input type="file" accept=".txt" id="m-file" style="font-size:12px;margin-top:4px">
+    <div id="m-info" style="font-size:12px;color:#8C7B6B;margin-top:6px"></div>
+    <div class="acts">
+      <button class="btn" id="m-cancel">取消</button>
+      <button class="pri" id="m-go">开始阅读</button>
     </div>
   </div>
 </div>
 
 <script>
-// ── Supabase ──
-const SUPA="https://vkomsdwasoviccjqhisz.supabase.co";
-const KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZrb21zZHdhc292aWNjanFoaXN6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzMxMDYwNzAsImV4cCI6MjA4ODY4MjA3MH0.hsk23LotAH3-C7j4ytcT6ABqMVfniC_byxAcGwfDKp8";
-const H={"Content-Type":"application/json",apikey:KEY,Authorization:"Bearer "+KEY,Prefer:"return=representation"};
-
-function supaTimeout(ms,promise){
-  return new Promise(function(resolve,reject){
-    var timer=setTimeout(function(){reject(new Error("timeout"));},ms);
-    promise.then(function(v){clearTimeout(timer);resolve(v);},function(e){clearTimeout(timer);reject(e);});
-  });
-}
-async function supa(path,opt){
-  opt=opt||{};
-  var r=await supaTimeout(8000,fetch(SUPA+"/rest/v1/"+path,Object.assign({},opt,{headers:Object.assign({},H,opt.headers||{})})));
-  if(!r.ok)throw new Error(await r.text());
-  var t=await r.text();return t?JSON.parse(t):[];
+// Debug helper
+function log(msg){
+  console.log(msg);
+  var d=document.getElementById("debug");
+  d.style.display="block";
+  d.textContent=msg;
+  setTimeout(function(){d.style.display="none";},5000);
 }
 
-// ── State ──
-var books=[], curBook=null, chapters=[], curCh=1, annos=[], showAnnotations=true, fileText="", pollTimer=null;
+// Storage
+function sGet(k){try{var v=localStorage.getItem(k);return v?JSON.parse(v):null;}catch(e){return null;}}
+function sSet(k,v){try{localStorage.setItem(k,JSON.stringify(v));}catch(e){}}
+function sDel(k){try{localStorage.removeItem(k);}catch(e){}}
 
-// ── Parse ──
-function parseChapters(raw){
-  var lines=raw.split(/\r?\n/), re=/^(第[一二三四五六七八九十百千零\d]+[章回节卷篇])(\s|$|[\u3000])/;
-  var out=[],t="前言",buf=[];
+// Escape HTML
+function esc(s){var d=document.createElement("div");d.textContent=s;return d.innerHTML;}
+
+// Parse chapters
+function parse(raw){
+  var lines=raw.split(/\r?\n/);
+  var re=/^第[一二三四五六七八九十百千零\d]+[章回节卷篇][\s\u3000]/;
+  var out=[];
+  var t="前言";
+  var buf=[];
   for(var i=0;i<lines.length;i++){
-    var trimmed=lines[i].trim();
-    if(re.test(trimmed)){if(buf.length){var c=buf.join("\n").trim();if(c.length>100)out.push({t:t,c:c});}t=trimmed;buf=[];}
-    else buf.push(lines[i]);
+    var tr=lines[i].trim();
+    if(re.test(tr+' ')){
+      if(buf.length>0){
+        var c=buf.join("\n").trim();
+        if(c.length>100){out.push({t:t,c:c});}
+      }
+      t=tr;
+      buf=[];
+    }else{
+      buf.push(lines[i]);
+    }
   }
-  if(buf.length){var c=buf.join("\n").trim();if(c.length>100)out.push({t:t,c:c});}
-  if(out.length>1&&out[0].t==="前言"&&out[0].c.length>5000)out[0].t="导读";
-  return out.length?out:[{t:"全文",c:raw.trim()}];
+  if(buf.length>0){
+    var c=buf.join("\n").trim();
+    if(c.length>100){out.push({t:t,c:c});}
+  }
+  if(out.length===0){out.push({t:"全文",c:raw.trim()});}
+  return out;
 }
 
-// ── Shelf ──
-async function loadShelf(){
-  var el=document.getElementById("shelf-content");
-  el.innerHTML='<div style="text-align:center;color:#8C7B6B;padding:60px 0">正在整理书架...</div>';
-  try{
-    books=await supa("books?order=created_at.desc");
-    document.getElementById("shelf-sub").textContent="柰柰 & Claude 的阅读角";
-  }catch(e){
-    console.log("shelf load error:",e);
-    books=[];
-    document.getElementById("shelf-sub").textContent="柰柰 & Claude 的阅读角 · 离线模式";
-  }
-  try{renderShelf();}catch(e2){
-    console.log("render error:",e2);
-    el.innerHTML='<div class="empty"><div class="icon">📚</div><h3>书架还是空的</h3><p>上传 TXT 开始共读之旅</p><button class="btn-p" onclick="showUpload()">上传第一本书</button></div>';
-  }
+// State
+var books=[];
+var curBook=null;
+var chapters=[];
+var curCh=0;
+var annos={};
+var showA=true;
+var openP=-1;
+var fileText="";
+
+// Shelf
+function loadShelf(){
+  books=sGet("books")||[];
+  renderShelf();
 }
 
 function renderShelf(){
-  var el=document.getElementById("shelf-content");
-  if(!books.length){
-    el.innerHTML='<div class="empty"><div class="icon">📚</div><h3>书架还是空的</h3><p>上传 TXT 开始共读之旅</p><button class="btn-p" onclick="showUpload()">上传第一本书</button></div>';
+  var el=document.getElementById("app");
+  if(books.length===0){
+    el.innerHTML='<div class="empty"><div style="font-size:40px;margin-bottom:8px">📚</div><h3>书架还是空的</h3><p>上传 TXT 开始共读之旅</p></div>';
     return;
   }
-  var html='<div style="font-size:14px;color:#8C7B6B;margin-bottom:18px">我们的书架 · '+books.length+' 本</div><div class="book-grid">';
-  var colors=["#8B7355","#6B7B5A","#5B6B8A","#8A5B6B","#7B6B8A"];
+  var cs=["#8B7355","#6B7B5A","#5B6B8A","#8A5B6B","#7B6B8A"];
+  var h='<div style="font-size:13px;color:#8C7B6B;margin-bottom:14px">我们的书架 · '+books.length+' 本</div><div class="grid">';
   for(var i=0;i<books.length;i++){
-    var b=books[i], co=colors[b.title.length%colors.length];
-    html+='<div style="position:relative"><div class="book-card" style="background:linear-gradient(135deg,'+co+','+co+'BB)" onclick="openBook(\''+b.id+'\')">';
-    html+='<div class="spine"></div><div class="title">'+esc(b.title)+'</div>';
-    if(b.author)html+='<div class="author">'+esc(b.author)+'</div>';
-    html+='</div><button class="book-del" onclick="event.stopPropagation();delBook(\''+b.id+'\')">×</button></div>';
+    var b=books[i];
+    var co=cs[b.title.length%cs.length];
+    h+='<div style="position:relative"><div class="card" style="background:linear-gradient(135deg,'+co+','+co+'BB)" data-idx="'+i+'">';
+    h+='<span>'+esc(b.title)+'</span>';
+    if(b.author){h+='<small>'+esc(b.author)+'</small>';}
+    h+='</div><button class="del" data-del="'+i+'">×</button></div>';
   }
-  html+='</div>';
-  el.innerHTML=html;
-}
+  h+='</div>';
+  el.innerHTML=h;
 
-async function openBook(id){
-  var b=books.find(function(x){return x.id===id;});
-  if(!b)return;
-  curBook=b;
-  try{chapters=await supa("chapters?book_id=eq."+id+"&order=chapter_number.asc");}catch(e){chapters=[];alert("加载失败");}
-  if(!chapters.length)return;
-  curCh=1; showReader();
-}
-
-async function delBook(id){
-  if(!confirm("确定删除？"))return;
-  try{await supa("books?id=eq."+id,{method:"DELETE"});}catch(e){}
-  loadShelf();
-}
-
-// ── Upload ──
-function showUpload(){document.getElementById("upload-modal").style.display="flex";fileText="";}
-function hideUpload(){document.getElementById("upload-modal").style.display="none";
-  document.getElementById("up-title").value="";document.getElementById("up-author").value="";
-  document.getElementById("up-file").value="";document.getElementById("up-info").textContent="";fileText="";}
-
-document.getElementById("up-file").addEventListener("change",function(e){
-  var f=e.target.files[0];if(!f)return;
-  var r=new FileReader();
-  r.onload=function(ev){fileText=ev.target.result;
-    var chs=parseChapters(fileText);
-    document.getElementById("up-info").textContent="已读取 "+fileText.length+" 字，"+chs.length+" 个有效章节";
-  };
-  r.readAsText(f,"UTF-8");
-  if(!document.getElementById("up-title").value)document.getElementById("up-title").value=f.name.replace(/\.txt$/i,"");
-});
-
-async function doUpload(){
-  var title=document.getElementById("up-title").value.trim();
-  var author=document.getElementById("up-author").value.trim();
-  if(!title||!fileText){alert("请填写书名并上传文件");return;}
-  var btn=document.getElementById("up-go");btn.disabled=true;btn.textContent="解析中...";
-  try{
-    var chs=parseChapters(fileText);
-    btn.textContent="保存书籍...";
-    var res=await supa("books",{method:"POST",body:JSON.stringify({title:title,author:author||null})});
-    var book=res[0];
-    for(var i=0;i<chs.length;i+=20){
-      btn.textContent="上传章节 "+Math.min(i+20,chs.length)+"/"+chs.length;
-      var batch=[];
-      for(var j=i;j<Math.min(i+20,chs.length);j++){
-        batch.push({book_id:book.id,chapter_number:j+1,title:chs[j].t,content:chs[j].c});
+  // Bind events
+  var cards=el.querySelectorAll(".card");
+  for(var i=0;i<cards.length;i++){
+    cards[i].addEventListener("click",function(){
+      var idx=parseInt(this.getAttribute("data-idx"));
+      openBook(idx);
+    });
+  }
+  var dels=el.querySelectorAll(".del");
+  for(var i=0;i<dels.length;i++){
+    dels[i].addEventListener("click",function(e){
+      e.stopPropagation();
+      var idx=parseInt(this.getAttribute("data-del"));
+      if(confirm("确定删除？")){
+        sDel("ch-"+books[idx].id);
+        sDel("an-"+books[idx].id);
+        books.splice(idx,1);
+        sSet("books",books);
+        renderShelf();
       }
-      await supa("chapters",{method:"POST",body:JSON.stringify(batch)});
-    }
-    hideUpload();
-    curBook=book;
-    chapters=await supa("chapters?book_id=eq."+book.id+"&order=chapter_number.asc");
-    curCh=1;
-    books.unshift(book);
-    showReader();
-  }catch(e){alert("上传失败: "+e.message);}
-  btn.disabled=false;btn.textContent="开始阅读";
+    });
+  }
 }
 
-// ── Reader ──
-function showReader(){
-  document.getElementById("shelf-page").classList.remove("active");
-  document.getElementById("reader-page").classList.add("active");
-  document.getElementById("reader-page").style.display="flex";
-  document.getElementById("reader-page").style.flexDirection="column";
-  document.getElementById("reader-page").style.height="100vh";
-  loadChapter();
-  startPoll();
+function openBook(idx){
+  curBook=books[idx];
+  chapters=sGet("ch-"+curBook.id)||[];
+  annos=sGet("an-"+curBook.id)||{};
+  curCh=0;
+  openP=-1;
+  document.getElementById("shelf").style.display="none";
+  document.getElementById("reader").style.display="block";
+  var rc=document.getElementById("rc");
+  rc.style.height=(window.innerHeight-46)+"px";
+  renderReader();
 }
 
 function backToShelf(){
-  stopPoll();
-  document.getElementById("reader-page").classList.remove("active");
-  document.getElementById("reader-page").style.display="none";
-  document.getElementById("shelf-page").classList.add("active");
+  document.getElementById("reader").style.display="none";
+  document.getElementById("shelf").style.display="block";
   loadShelf();
 }
 
-async function loadChapter(){
-  var ch=chapters[curCh-1];if(!ch)return;
-  document.getElementById("r-title").textContent=curBook.title;
-  document.getElementById("r-sub").textContent=ch.title+" · "+curCh+"/"+chapters.length;
-  document.getElementById("anno-btn").style.background=showAnnotations?"#B8860B":"#FFFDF8";
-  document.getElementById("anno-btn").style.color=showAnnotations?"#fff":"#3A3028";
-  document.getElementById("anno-btn").style.border=showAnnotations?"none":"1px solid #E8DFD4";
-  try{annos=await supa("annotations?chapter_id=eq."+ch.id+"&order=paragraph_index.asc,created_at.asc");}catch(e){annos=[];}
-  renderChapter();
-}
+// Reader
+function renderReader(){
+  var ch=chapters[curCh];
+  if(!ch)return;
+  document.getElementById("rt").textContent=curBook.title;
+  document.getElementById("rs").textContent=ch.t+" · "+(curCh+1)+"/"+chapters.length;
 
-function renderChapter(){
-  var ch=chapters[curCh-1];if(!ch)return;
-  var paras=ch.content.split(/\n+/).filter(function(p){return p.trim();});
-  var html='<h2 class="chapter-title">'+esc(ch.title)+'</h2>';
+  var paras=ch.c.split(/\n+/).filter(function(p){return p.trim();});
+  var key="c"+curCh;
+  var ca=annos[key]||[];
+
+  var h='<h2 class="ch-title">'+esc(ch.t)+'</h2>';
   for(var i=0;i<paras.length;i++){
-    var pa=annos.filter(function(a){return a.paragraph_index===i;});
-    var cls="para"+(pa.length?" has-anno":"");
-    html+='<p class="'+cls+'" onclick="togglePara('+i+')" id="para-'+i+'">'+esc(paras[i]);
-    if(pa.length)html+='<span class="badge">'+pa.length+'条</span>';
-    html+='</p>';
-    html+='<div class="anno-box" id="anno-'+i+'" style="display:none">';
+    var pa=ca.filter(function(a){return a.pi===i;});
+    var hasPa=pa.length>0;
+    h+='<p class="pa'+(hasPa?' hl':'')+'" data-pi="'+i+'">'+esc(paras[i]);
+    if(hasPa){h+='<span class="bc">'+pa.length+'条</span>';}
+    h+='</p>';
+    h+='<div class="an" data-an="'+i+'" style="display:none">';
     for(var j=0;j<pa.length;j++){
-      var a=pa[j],ic=a.author==="claude";
-      html+='<div class="bubble '+(ic?"claude":"nainai")+'">';
-      html+='<div style="display:flex;align-items:center;gap:6px;margin-bottom:4px">';
-      html+='<span class="who '+(ic?"c":"n")+'">'+(ic?"Claude":"柰柰")+'</span>';
-      html+='<span class="time">'+new Date(a.created_at).toLocaleString("zh-CN",{month:"short",day:"numeric",hour:"2-digit",minute:"2-digit"})+'</span>';
-      html+='<button onclick="event.stopPropagation();delAnno(\''+a.id+'\')" style="margin-left:auto;background:none;border:none;color:#8C7B6B;cursor:pointer;font-size:10px">删除</button></div>';
-      if(a.highlighted_text)html+='<div class="hl '+(ic?"c":"n")+'">"'+esc(a.highlighted_text.slice(0,50))+(a.highlighted_text.length>50?"...":"")+'"</div>';
-      html+='<div class="txt">'+esc(a.content)+'</div></div>';
+      var a=pa[j];
+      var ic=a.w==="claude";
+      h+='<div class="bub '+(ic?'cl':'me')+'">';
+      h+='<span class="nm '+(ic?'c':'n')+'">'+(ic?'Claude':'柰柰')+'</span>';
+      h+='<div class="ct">'+esc(a.tx)+'</div></div>';
     }
-    html+='<div class="comment-row"><textarea id="cmt-'+i+'" placeholder="写下你的想法..."></textarea>';
+    h+='<div class="cr"><textarea data-ta="'+i+'" placeholder="写下你的想法..."></textarea>';
 
 ```
-html+='<button class="btn-p" style="padding:6px 10px;font-size:11px;height:32px;align-self:flex-end" onclick="addComment('+i+')">发送</button></div></div>';
+h+='<button class="pri" data-send="'+i+'" style="padding:6px 10px;font-size:11px;height:32px;align-self:flex-end">发送</button></div>';
+h+='</div>';
 ```
 
 }
-html+=’<div class="nav-bar">’;
-html+=’<button class="btn" style="padding:5px 12px;font-size:12px;opacity:'+(curCh<=1?'0.3':'1')+'" onclick="goCh('+(curCh-1)+')">← 上一章</button>’;
-html+=’<span style="font-size:11px;color:#8C7B6B">’+curCh+’/’+chapters.length+’</span>’;
-html+=’<button class="btn" style="padding:5px 12px;font-size:12px;opacity:'+(curCh>=chapters.length?'0.3':'1')+'" onclick="goCh('+(curCh+1)+')">下一章 →</button>’;
-html+=’</div>’;
-document.getElementById(“reader-content”).innerHTML=html;
-document.getElementById(“reader-scroll”).scrollTop=0;
+h+=’<div class="nv">’;
+h+=’<button class="btn" data-go="'+(curCh-1)+'" style="font-size:12px;opacity:'+(curCh<=0?'.3':'1')+'">← 上一章</button>’;
+h+=’<span style="font-size:11px;color:#8C7B6B">’+(curCh+1)+’/’+chapters.length+’</span>’;
+h+=’<button class="btn" data-go="'+(curCh+1)+'" style="font-size:12px;opacity:'+(curCh>=chapters.length-1?'.3':'1')+'">下一章 →</button>’;
+h+=’</div>’;
+
+var rc=document.getElementById(“rc”);
+rc.innerHTML=h;
+rc.scrollTop=0;
+
+// Bind paragraph clicks
+var ps=rc.querySelectorAll(”.pa”);
+for(var i=0;i<ps.length;i++){
+ps[i].addEventListener(“click”,function(){
+if(!showA)return;
+var pi=parseInt(this.getAttribute(“data-pi”));
+toggleP(pi);
+});
+}
+// Bind send buttons
+var sends=rc.querySelectorAll(”[data-send]”);
+for(var i=0;i<sends.length;i++){
+sends[i].addEventListener(“click”,function(){
+var pi=parseInt(this.getAttribute(“data-send”));
+var ta=rc.querySelector(’[data-ta=”’+pi+’”]’);
+if(!ta||!ta.value.trim())return;
+var key=“c”+curCh;
+if(!annos[key])annos[key]=[];
+var ch2=chapters[curCh];
+var paras2=ch2.c.split(/\n+/).filter(function(p){return p.trim();});
+annos[key].push({w:“nainai”,tx:ta.value.trim(),pi:pi,at:new Date().toISOString()});
+sSet(“an-”+curBook.id,annos);
+renderReader();
+});
+}
+// Bind nav
+var navs=rc.querySelectorAll(”[data-go]”);
+for(var i=0;i<navs.length;i++){
+navs[i].addEventListener(“click”,function(){
+var n=parseInt(this.getAttribute(“data-go”));
+if(n>=0&&n<chapters.length){curCh=n;openP=-1;renderReader();}
+});
+}
 }
 
-var openPara=-1;
-function togglePara(i){
-if(!showAnnotations)return;
-if(openPara>=0){var old=document.getElementById(“anno-”+openPara);if(old)old.style.display=“none”;
-var op=document.getElementById(“para-”+openPara);if(op)op.classList.remove(“selected”);}
-if(openPara===i){openPara=-1;return;}
-openPara=i;
-var el=document.getElementById(“anno-”+i);if(el)el.style.display=“block”;
-var pe=document.getElementById(“para-”+i);if(pe)pe.classList.add(“selected”);
+function toggleP(pi){
+// Close old
+if(openP>=0){
+var old=document.querySelector(’[data-an=”’+openP+’”]’);
+if(old)old.style.display=“none”;
+var op=document.querySelector(’[data-pi=”’+openP+’”]’);
+if(op)op.style.background=””;
+}
+if(openP===pi){openP=-1;return;}
+openP=pi;
+var el=document.querySelector(’[data-an=”’+pi+’”]’);
+if(el)el.style.display=“block”;
+var pe=document.querySelector(’[data-pi=”’+pi+’”]’);
+if(pe)pe.style.background=”#F5EDE3”;
 }
 
-function toggleAnno(){showAnnotations=!showAnnotations;openPara=-1;renderChapter();
-document.getElementById(“anno-btn”).style.background=showAnnotations?”#B8860B”:”#FFFDF8”;
-document.getElementById(“anno-btn”).style.color=showAnnotations?”#fff”:”#3A3028”;
-document.getElementById(“anno-btn”).style.border=showAnnotations?“none”:“1px solid #E8DFD4”;}
+// Upload
+function showModal(){
+document.getElementById(“modal”).style.display=“flex”;
+fileText=””;
+}
+function hideModal(){
+document.getElementById(“modal”).style.display=“none”;
+document.getElementById(“m-title”).value=””;
+document.getElementById(“m-author”).value=””;
+document.getElementById(“m-file”).value=””;
+document.getElementById(“m-info”).textContent=””;
+fileText=””;
+}
+function doUpload(){
+var title=document.getElementById(“m-title”).value.trim();
+var author=document.getElementById(“m-author”).value.trim();
+if(!title||!fileText){alert(“请填写书名并上传文件”);return;}
+var chs=parse(fileText);
+var id=“b”+Date.now();
+var meta={id:id,title:title,author:author||null};
+books.push(meta);
+sSet(“books”,books);
+var chData=chs.map(function(c,i){return{t:c.t,c:c.c};});
+sSet(“ch-”+id,chData);
+hideModal();
+curBook=meta;
+chapters=chData;
+annos={};
+curCh=0;
+openP=-1;
+document.getElementById(“shelf”).style.display=“none”;
+document.getElementById(“reader”).style.display=“block”;
+var rc=document.getElementById(“rc”);
+rc.style.height=(window.innerHeight-46)+“px”;
+renderReader();
+}
 
-function toggleToc(){
-var el=document.getElementById(“toc-overlay”);
-if(el.style.display===“none”){
-var html=’<div style="display:flex;justify-content:space-between;margin-bottom:10px"><span style="font-family:\'Noto Serif SC\',serif;font-size:14px;font-weight:600;color:#B8860B">目录</span><button onclick="toggleToc()" style="background:none;border:none;cursor:pointer;color:#8C7B6B;font-size:16px">×</button></div>’;
+// TOC
+function showToc(){
+var h=’<h3>目录</h3>’;
 for(var i=0;i<chapters.length;i++){
-html+=’<div class=“toc-item’+(i+1===curCh?” active”:””)+’” onclick=“goCh(’+(i+1)+’);toggleToc()”>’+esc(chapters[i].title)+’</div>’;
+h+=’<div class="'+(i===curCh?'cur':'')+'" data-toc="'+i+'">’+esc(chapters[i].t)+’</div>’;
 }
-document.getElementById(“toc-list”).innerHTML=html;
-el.style.display=“flex”;
-}else el.style.display=“none”;
+document.getElementById(“toc”).innerHTML=h;
+document.getElementById(“toc”).style.display=“block”;
+document.getElementById(“toc-bg”).style.display=“block”;
+var items=document.getElementById(“toc”).querySelectorAll(”[data-toc]”);
+for(var i=0;i<items.length;i++){
+items[i].addEventListener(“click”,function(){
+curCh=parseInt(this.getAttribute(“data-toc”));
+openP=-1;
+hideToc();
+renderReader();
+});
 }
-
-function goCh(n){if(n<1||n>chapters.length)return;curCh=n;openPara=-1;loadChapter();}
-
-async function addComment(idx){
-var ta=document.getElementById(“cmt-”+idx);if(!ta||!ta.value.trim())return;
-var ch=chapters[curCh-1];
-var paras=ch.content.split(/\n+/).filter(function(p){return p.trim();});
-try{
-await supa(“annotations”,{method:“POST”,body:JSON.stringify({
-chapter_id:ch.id,author:“nainai”,content:ta.value.trim(),
-highlighted_text:(paras[idx]||””).slice(0,80),paragraph_index:idx
-})});
-ta.value=””;loadChapter();
-}catch(e){alert(“评论失败: “+e.message);}
+}
+function hideToc(){
+document.getElementById(“toc”).style.display=“none”;
+document.getElementById(“toc-bg”).style.display=“none”;
 }
 
-async function delAnno(id){
-try{await supa(“annotations?id=eq.”+id,{method:“DELETE”});loadChapter();}catch(e){alert(“删除失败”);}
+// Event bindings
+document.getElementById(“add-btn”).addEventListener(“click”,showModal);
+document.getElementById(“m-cancel”).addEventListener(“click”,hideModal);
+document.getElementById(“m-go”).addEventListener(“click”,doUpload);
+document.getElementById(“back-btn”).addEventListener(“click”,backToShelf);
+document.getElementById(“tbtn”).addEventListener(“click”,showToc);
+document.getElementById(“toc-bg”).addEventListener(“click”,hideToc);
+document.getElementById(“abtn”).addEventListener(“click”,function(){
+showA=!showA;
+this.className=showA?“sm on”:“sm”;
+openP=-1;
+renderReader();
+});
+document.getElementById(“m-file”).addEventListener(“change”,function(e){
+var f=e.target.files[0];
+if(!f)return;
+var r=new FileReader();
+r.onload=function(ev){
+fileText=ev.target.result;
+var chs=parse(fileText);
+document.getElementById(“m-info”).textContent=“已读取 “+fileText.length+” 字，”+chs.length+” 个有效章节”;
+};
+r.readAsText(f,“UTF-8”);
+if(!document.getElementById(“m-title”).value){
+document.getElementById(“m-title”).value=f.name.replace(/.txt$/i,””);
 }
+});
 
-// ── Poll for Claude’s comments ──
-function startPoll(){stopPoll();pollTimer=setInterval(function(){
-var ch=chapters[curCh-1];if(!ch)return;
-supa(“annotations?chapter_id=eq.”+ch.id+”&order=paragraph_index.asc,created_at.asc”)
-.then(function(a){if(a.length!==annos.length){annos=a;renderChapter();}}).catch(function(){});
-},10000);}
-function stopPoll(){if(pollTimer){clearInterval(pollTimer);pollTimer=null;}}
-
-// ── Util ──
-function esc(s){var d=document.createElement(“div”);d.textContent=s;return d.innerHTML;}
-
-// ── Init ──
+// Init
+log(“共读小屋加载中…”);
 loadShelf();
+log(“加载完成！”);
 </script>
 
 </body>
