@@ -31,63 +31,65 @@
   --radius-lg: 16px;
 }
 
-body{font-family:'LXGW WenKai',-apple-system,sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden}
+body{
+  font-family:'LXGW WenKai',-apple-system,sans-serif;
+  background:var(--bg);color:var(--text);overflow-x:hidden;
+  /* subtle paper texture */
+  background-image:
+    radial-gradient(ellipse at 20% 50%, rgba(184,134,11,.03) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 20%, rgba(139,115,85,.03) 0%, transparent 50%),
+    url("data:image/svg+xml,%3Csvg width='60' height='60' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.03'/%3E%3C/svg%3E");
+}
 button{font-family:'LXGW WenKai',-apple-system,sans-serif;-webkit-appearance:none;transition:all .2s ease}
 input,textarea{font-family:'LXGW WenKai',-apple-system,sans-serif;-webkit-appearance:none;transition:border-color .2s ease}
-input:focus,textarea:focus{outline:none;border-color:var(--accent)!important;box-shadow:0 0 0 3px rgba(184,134,11,.08)}
+input:focus,textarea:focus{outline:none;border-color:var(--accent)!important;box-shadow:0 0 0 3px rgba(184,134,11,.1)}
 
 ::-webkit-scrollbar{width:5px}
 ::-webkit-scrollbar-track{background:transparent}
 ::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px}
-::-webkit-scrollbar-thumb:hover{background:var(--text-muted)}
 
 /* ── Header ── */
 .hd{
   padding:16px 20px;
-  background:var(--card-bg);
+  background:rgba(255,253,249,.95);
+  backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
   border-bottom:1px solid var(--border);
   display:flex;align-items:center;justify-content:space-between;
-  box-shadow:var(--shadow-sm);
   position:sticky;top:0;z-index:10;
-  backdrop-filter:blur(12px);
-  background:rgba(255,253,249,.92);
+  box-shadow:0 1px 8px rgba(139,115,85,.06);
 }
 .hd h1{font-family:'Noto Serif SC',serif;font-size:20px;color:var(--accent);letter-spacing:3px;font-weight:700}
 .hd small{font-size:11px;color:var(--text-muted);display:block;margin-top:3px;letter-spacing:.5px}
 
 /* ── Buttons ── */
 .pri{
-  padding:9px 18px;border-radius:20px;border:none;
+  padding:10px 20px;border-radius:22px;border:none;
   background:linear-gradient(135deg,var(--accent),var(--accent-light));
   color:#fff;font-size:13px;cursor:pointer;font-weight:600;
   box-shadow:0 2px 8px rgba(184,134,11,.2);
   letter-spacing:.5px;
 }
-.pri:hover{transform:translateY(-1px);box-shadow:0 4px 12px rgba(184,134,11,.25)}
-.pri:active{transform:translateY(0)}
+.pri:active{transform:scale(.97)}
 
 .btn{
   padding:8px 16px;border-radius:20px;
   border:1px solid var(--border);background:var(--card-bg);
   color:var(--text);font-size:13px;cursor:pointer;
-  transition:all .2s ease;
 }
-.btn:hover{border-color:var(--accent);color:var(--accent);background:#FFFCF5}
+.btn:active{background:var(--bg)}
 
 .sm{
-  padding:5px 12px;border-radius:16px;
+  padding:6px 14px;border-radius:16px;
   border:1px solid var(--border);background:var(--card-bg);
   font-size:11px;cursor:pointer;letter-spacing:.3px;
-  transition:all .2s ease;
 }
-.sm:hover{border-color:var(--accent);color:var(--accent)}
 .sm.on{background:var(--accent);color:#fff;border-color:var(--accent);box-shadow:0 2px 6px rgba(184,134,11,.2)}
 
 /* ── Modal ── */
-.overlay{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.45);display:flex;align-items:center;justify-content:center;z-index:99;backdrop-filter:blur(4px)}
+.overlay{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.45);display:flex;align-items:center;justify-content:center;z-index:99;backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px)}
 .box{
   background:var(--card-bg);border-radius:var(--radius-lg);
-  padding:28px;width:88%;max-width:400px;
+  padding:28px;width:90%;max-width:400px;
   box-shadow:var(--shadow-lg);
   animation:modalIn .25s ease;
 }
@@ -98,35 +100,34 @@ input:focus,textarea:focus{outline:none;border-color:var(--accent)!important;box
 
 /* ── Book Grid ── */
 .shelf-title{
-  font-family:'Noto Serif SC',serif;font-size:14px;color:var(--text-muted);
-  letter-spacing:1.5px;padding:8px 0 4px;
-  border-bottom:1px solid var(--border);margin-bottom:20px;
+  font-family:'Noto Serif SC',serif;font-size:13px;color:var(--text-muted);
+  letter-spacing:2px;padding:8px 0 4px;
+  border-bottom:1px solid var(--border);margin-bottom:22px;
 }
-.grid{display:flex;flex-wrap:wrap;gap:20px;justify-content:flex-start}
+.grid{display:flex;flex-wrap:wrap;gap:18px;justify-content:flex-start}
 
-.card-wrap{position:relative;transition:transform .2s ease}
-.card-wrap:hover{transform:translateY(-3px)}
+.card-wrap{position:relative}
 
 .card{
-  width:130px;height:185px;
-  border-radius:4px 12px 12px 4px;
+  width:120px;height:170px;
+  border-radius:3px 10px 10px 3px;
   display:flex;flex-direction:column;justify-content:center;align-items:center;
-  padding:18px 14px;position:relative;overflow:hidden;cursor:pointer;
-  box-shadow:var(--shadow-md);
-  transition:box-shadow .2s ease;
+  padding:16px 12px;position:relative;overflow:hidden;cursor:pointer;
+  box-shadow:3px 4px 14px rgba(139,115,85,.12);
+  transition:box-shadow .2s ease,transform .2s ease;
 }
-.card:hover{box-shadow:var(--shadow-lg)}
+.card:active{transform:scale(.97)}
 .card .sp{position:absolute;left:0;top:0;bottom:0;width:5px;background:rgba(0,0,0,.18)}
 .card .spine-lines{
   position:absolute;left:6px;top:15%;bottom:15%;width:1px;
-  background:repeating-linear-gradient(to bottom,rgba(255,255,255,.15) 0,rgba(255,255,255,.15) 3px,transparent 3px,transparent 8px);
+  background:repeating-linear-gradient(to bottom,rgba(255,255,255,.12) 0,rgba(255,255,255,.12) 3px,transparent 3px,transparent 8px);
 }
 .card span{
-  font-family:'Noto Serif SC',serif;font-size:14px;font-weight:700;
+  font-family:'Noto Serif SC',serif;font-size:13px;font-weight:700;
   color:#fff;text-align:center;line-height:1.6;
   text-shadow:0 1px 3px rgba(0,0,0,.25);word-break:break-all;
 }
-.card small{font-size:10px;color:rgba(255,255,255,.75);margin-top:10px;letter-spacing:.5px}
+.card small{font-size:9px;color:rgba(255,255,255,.7);margin-top:8px;letter-spacing:.3px}
 
 .del{
   position:absolute;top:-5px;right:-5px;
@@ -136,81 +137,120 @@ input:focus,textarea:focus{outline:none;border-color:var(--accent)!important;box
   box-shadow:0 2px 6px rgba(211,84,82,.3);
   opacity:0;transition:opacity .2s ease;
 }
-.card-wrap:hover .del{opacity:1}
+.card-wrap:active .del{opacity:1}
+@media(hover:hover){.card-wrap:hover .del{opacity:1}}
 
 /* ── Reader Header ── */
 .rhd{
-  padding:12px 16px;
-  background:rgba(255,253,249,.92);
-  backdrop-filter:blur(12px);
+  padding:10px 12px;
+  background:rgba(255,253,249,.95);
+  backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
   border-bottom:1px solid var(--border);
-  display:flex;align-items:center;gap:8px;
+  display:flex;align-items:center;gap:6px;
   position:sticky;top:0;z-index:10;
-  box-shadow:var(--shadow-sm);
+  box-shadow:0 1px 6px rgba(139,115,85,.05);
 }
 .ti{flex:1;text-align:center;min-width:0}
-.ti h3{font-family:'Noto Serif SC',serif;font-size:14px;color:var(--accent);font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.ti small{font-size:10px;color:var(--text-muted);letter-spacing:.3px}
+.ti h3{font-family:'Noto Serif SC',serif;font-size:13px;color:var(--accent);font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ti small{font-size:10px;color:var(--text-muted)}
 
-/* ── Reading Content ── */
-.cht{
-  font-family:'Noto Serif SC',serif;font-size:20px;font-weight:700;
-  text-align:center;margin-bottom:32px;color:var(--text);
-  letter-spacing:2px;line-height:1.6;
+/* ── Reading area: paper feel ── */
+.read-area{
+  overflow-y:auto;
+  height:calc(100vh - 48px);height:calc(100dvh - 48px);
+  -webkit-overflow-scrolling:touch;
+  display:flex;justify-content:center;
+  background:
+    linear-gradient(to right, rgba(139,115,85,.04) 0%, transparent 3%, transparent 97%, rgba(139,115,85,.04) 100%),
+    linear-gradient(to bottom, rgba(139,115,85,.03) 0%, transparent 2%);
+}
+.read-inner{
+  max-width:620px;width:100%;
+  padding:32px 20px 20px;
   position:relative;
 }
+
+/* ── Chapter title ── */
+.cht{
+  font-family:'Noto Serif SC',serif;font-size:19px;font-weight:700;
+  text-align:center;margin-bottom:28px;color:var(--text);
+  letter-spacing:2px;line-height:1.6;
+}
 .cht::after{
-  content:'';display:block;width:40px;height:2px;
+  content:'';display:block;width:36px;height:2px;
   background:linear-gradient(to right,transparent,var(--accent),transparent);
-  margin:16px auto 0;
+  margin:14px auto 0;border-radius:1px;
 }
 
+/* ── Paragraph ── */
 .pa{
-  font-family:'Noto Serif SC',serif;font-size:15.5px;line-height:2.1;
-  text-indent:2em;padding:4px 8px;margin:0 0 2px;
+  font-family:'Noto Serif SC',serif;font-size:15px;line-height:2.1;
+  text-indent:2em;padding:6px 10px;margin:0 0 2px;
   cursor:pointer;border-radius:6px;
   border-left:3px solid transparent;
   position:relative;
-  transition:all .2s ease;
+  transition:background .15s ease;
 }
-.pa:hover{background:rgba(184,134,11,.04)}
-.pa:active{background:rgba(184,134,11,.08)}
+.pa:active{background:rgba(184,134,11,.06)}
 .pa.hl{
-  background:linear-gradient(to right,rgba(184,134,11,.04),rgba(253,245,238,.6));
+  background:linear-gradient(to right,rgba(184,134,11,.05),rgba(253,245,238,.5));
   border-left-color:var(--accent);
 }
 .pa .bc{
-  position:absolute;right:4px;top:4px;
+  position:absolute;right:6px;top:6px;
   font-size:9px;color:var(--accent);
-  background:rgba(184,134,11,.08);
-  padding:1px 6px;border-radius:8px;
+  background:rgba(184,134,11,.1);
+  padding:2px 7px;border-radius:10px;
   font-family:'LXGW WenKai',sans-serif;
 }
 
-/* ── Unread dot ── */
-.pa .unread-dot{
-  position:absolute;left:-14px;top:50%;transform:translateY(-50%);
-  width:8px;height:8px;border-radius:50%;
-  background:var(--claude-accent);
-  box-shadow:0 0 6px rgba(91,127,165,.4);
-  animation:unreadPulse 2s ease-in-out infinite;
+/* ── Unread indicator: glowing bar ── */
+.pa .unread-bar{
+  position:absolute;left:-3px;top:8px;bottom:8px;width:3px;
+  border-radius:2px;
+  background:linear-gradient(to bottom,var(--claude-accent),#7BA3CC);
+  box-shadow:0 0 8px rgba(91,127,165,.5), 0 0 3px rgba(91,127,165,.3);
+  animation:unreadGlow 2.5s ease-in-out infinite;
 }
-@keyframes unreadPulse{0%,100%{opacity:1;transform:translateY(-50%) scale(1)}50%{opacity:.6;transform:translateY(-50%) scale(.85)}}
+@keyframes unreadGlow{
+  0%,100%{opacity:1;box-shadow:0 0 8px rgba(91,127,165,.5), 0 0 3px rgba(91,127,165,.3)}
+  50%{opacity:.7;box-shadow:0 0 4px rgba(91,127,165,.3), 0 0 2px rgba(91,127,165,.2)}
+}
+.pa .unread-badge{
+  position:absolute;left:-28px;top:8px;
+  font-size:8px;color:#fff;
+  background:var(--claude-accent);
+  padding:2px 5px;border-radius:6px;
+  white-space:nowrap;letter-spacing:.3px;
+  box-shadow:0 1px 4px rgba(91,127,165,.3);
+  font-family:'LXGW WenKai',sans-serif;
+}
 
 /* ── Annotations ── */
-.an{padding:10px 8px 10px 14px;animation:slideDown .2s ease}
-@keyframes slideDown{from{opacity:0;max-height:0}to{opacity:1;max-height:2000px}}
+.an{padding:10px 6px 10px 10px;animation:fadeIn .2s ease}
+@keyframes fadeIn{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:translateY(0)}}
 
 .bub{
   padding:12px 14px;border-radius:var(--radius);margin-bottom:8px;
   position:relative;
-  transition:all .2s ease;
   animation:bubIn .2s ease;
 }
 @keyframes bubIn{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:translateY(0)}}
 
-.bub.me{background:var(--nainai-bg);border:1px solid var(--nainai-border)}
-.bub.cl{background:var(--claude-bg);border:1px solid var(--claude-border)}
+.bub.me{
+  background:linear-gradient(135deg,#FDF5EE,#FBF0E4);
+  border:1px solid var(--nainai-border);
+  box-shadow:0 1px 4px rgba(160,119,90,.06);
+}
+.bub.cl{
+  background:linear-gradient(135deg,#EBF1F8,#E3ECF5);
+  border:1px solid var(--claude-border);
+  box-shadow:0 1px 4px rgba(91,127,165,.06);
+}
+.bub.cl.unread-bub{
+  border-color:var(--claude-accent);
+  box-shadow:0 1px 8px rgba(91,127,165,.15);
+}
 
 .bub .nm{font-size:11px;font-weight:700;letter-spacing:.3px}
 .bub .nm.n{color:var(--nainai-accent)}
@@ -230,11 +270,8 @@ input:focus,textarea:focus{outline:none;border-color:var(--accent)!important;box
 .bub .dl{
   position:absolute;top:8px;right:8px;
   background:none;border:none;color:var(--text-muted);
-  font-size:10px;cursor:pointer;opacity:0;
-  transition:opacity .2s ease;
+  font-size:10px;cursor:pointer;opacity:.3;
 }
-.bub:hover .dl{opacity:.6}
-.bub .dl:hover{opacity:1;color:#D35452}
 
 /* ── Comment input ── */
 .cr{display:flex;gap:8px;margin-top:6px;align-items:flex-end}
@@ -248,64 +285,78 @@ input:focus,textarea:focus{outline:none;border-color:var(--accent)!important;box
   padding:8px 14px;border-radius:var(--radius);border:none;
   background:linear-gradient(135deg,var(--accent),var(--accent-light));
   color:#fff;font-size:11px;font-weight:600;
-  cursor:pointer;white-space:nowrap;
-  height:36px;
+  cursor:pointer;white-space:nowrap;height:36px;
   box-shadow:0 2px 6px rgba(184,134,11,.15);
 }
-.cr .send-btn:hover{box-shadow:0 3px 8px rgba(184,134,11,.25)}
+
+/* ── Progress bar ── */
+.progress-wrap{
+  position:fixed;bottom:0;left:0;right:0;height:3px;
+  background:rgba(232,223,212,.5);z-index:20;
+}
+.progress-bar{
+  height:100%;background:linear-gradient(to right,var(--accent),var(--accent-light));
+  border-radius:0 2px 2px 0;
+  transition:width .3s ease;
+}
 
 /* ── Nav ── */
 .nv{
   display:flex;justify-content:space-between;align-items:center;
-  padding:32px 0 48px;
-  border-top:1px solid var(--border);margin-top:36px;
+  padding:28px 0 60px;
+  border-top:1px solid var(--border);margin-top:32px;
 }
 .nv .page-info{font-size:11px;color:var(--text-muted);letter-spacing:.5px}
 
 /* ── TOC ── */
 .toc{
-  position:fixed;top:0;left:0;bottom:0;width:240px;
+  position:fixed;top:0;left:0;bottom:0;width:260px;
   background:var(--card-bg);z-index:50;overflow-y:auto;
   padding:18px;box-shadow:8px 0 24px rgba(0,0,0,.08);
   animation:tocIn .2s ease;
 }
 @keyframes tocIn{from{transform:translateX(-100%)}to{transform:translateX(0)}}
-.toc-bg{position:fixed;inset:0;background:rgba(0,0,0,.25);z-index:49;backdrop-filter:blur(2px)}
+.toc-bg{position:fixed;inset:0;background:rgba(0,0,0,.25);z-index:49;backdrop-filter:blur(2px);-webkit-backdrop-filter:blur(2px)}
 .toc h3{font-family:'Noto Serif SC',serif;font-size:15px;color:var(--accent);margin-bottom:14px;letter-spacing:1px}
 .toc-i{
   padding:8px 10px;border-radius:8px;font-size:12px;
   cursor:pointer;margin-bottom:3px;line-height:1.5;
-  transition:all .15s ease;
-  color:var(--text);
+  color:var(--text);display:flex;align-items:center;
 }
-.toc-i:hover{background:rgba(184,134,11,.06);color:var(--accent)}
+.toc-i:active{background:rgba(184,134,11,.08)}
 .toc-i.cur{background:rgba(184,134,11,.1);color:var(--accent);font-weight:600}
+.toc-dot{
+  width:6px;height:6px;border-radius:50%;
+  background:var(--claude-accent);
+  box-shadow:0 0 4px rgba(91,127,165,.3);
+  margin-right:8px;flex-shrink:0;
+}
 
 /* ── Empty state ── */
 .empty{text-align:center;padding:80px 20px}
-.empty .icon{font-size:52px;margin-bottom:12px;filter:grayscale(.2)}
+.empty .icon{font-size:48px;margin-bottom:12px}
 .empty h3{font-family:'Noto Serif SC',serif;font-size:18px;margin-bottom:8px;color:var(--text);letter-spacing:1px}
 .empty p{font-size:13px;color:var(--text-muted);margin:0 0 20px;line-height:1.8}
 
-/* ── Unread badge on book card ── */
-.card-badge{
-  position:absolute;top:8px;right:8px;
-  min-width:18px;height:18px;padding:0 5px;
-  border-radius:9px;
-  background:var(--claude-accent);color:#fff;
-  font-size:10px;font-weight:700;
-  display:flex;align-items:center;justify-content:center;
-  box-shadow:0 2px 6px rgba(91,127,165,.35);
-  z-index:2;
-  animation:unreadPulse 2s ease-in-out infinite;
+/* ── Reading progress memory indicator ── */
+.last-read{
+  font-size:10px;color:var(--accent);
+  background:rgba(184,134,11,.08);
+  padding:3px 8px;border-radius:8px;
+  position:absolute;bottom:8px;left:50%;transform:translateX(-50%);
+  white-space:nowrap;font-family:'LXGW WenKai',sans-serif;
 }
 
-/* ── Chapter unread indicator in TOC ── */
-.toc-unread{
-  display:inline-block;width:6px;height:6px;
-  border-radius:50%;background:var(--claude-accent);
-  margin-right:6px;vertical-align:middle;
-  box-shadow:0 0 4px rgba(91,127,165,.3);
+/* ── Mobile: long-press hint ── */
+@media(max-width:480px){
+  .grid{gap:14px}
+  .card{width:105px;height:152px;padding:14px 10px}
+  .card span{font-size:12px}
+  .read-inner{padding:24px 14px 16px}
+  .pa{font-size:14.5px;padding:5px 8px}
+  .pa .unread-badge{left:-22px;font-size:7px;padding:1px 4px}
+  .bub .ct{font-size:13px}
+  .toc{width:75vw;max-width:260px}
 }
 </style>
 </head>
@@ -316,12 +367,13 @@ input:focus,textarea:focus{outline:none;border-color:var(--accent)!important;box
     <div><h1>共读小屋</h1><small id="sub">柰柰 & Claude 的阅读角</small></div>
     <button class="pri" onclick="openModal()">+ 新书</button>
   </div>
-  <div id="main" style="padding:28px 20px"></div>
+  <div id="main" style="padding:24px 18px"></div>
 </div>
 
 <div id="reader" style="display:none"></div>
 <div id="toc-bg" class="toc-bg" style="display:none" onclick="hideToc()"></div>
 <div id="toc" class="toc" style="display:none"></div>
+<div id="progress" class="progress-wrap" style="display:none"><div class="progress-bar" id="pbar"></div></div>
 
 <div id="modal" class="overlay" style="display:none">
   <div class="box">
@@ -357,59 +409,219 @@ var _poll = null;
 var _cloud = false;
 
 // ── Unread tracking ──
-function getReadKey(chapterId) { return "cr4-read-" + chapterId; }
-
-function getLastReadIds(chapterId) {
-  try {
-    var raw = localStorage.getItem(getReadKey(chapterId));
-    return raw ? JSON.parse(raw) : [];
-  } catch(e) { return []; }
+function getReadKey(chId) { return "cr4-read-" + chId; }
+function getLastReadIds(chId) {
+  try { var r = localStorage.getItem(getReadKey(chId)); return r ? JSON.parse(r) : []; } catch(e) { return []; }
 }
-
-function markChapterRead(chapterId, annos) {
-  var claudeIds = annos.filter(function(a){ return a.author === "claude"; }).map(function(a){ return a.id; });
-  try { localStorage.setItem(getReadKey(chapterId), JSON.stringify(claudeIds)); } catch(e) {}
+function markChapterRead(chId, annos) {
+  var ids = annos.filter(function(a){ return a.author === "claude"; }).map(function(a){ return a.id; });
+  try { localStorage.setItem(getReadKey(chId), JSON.stringify(ids)); } catch(e) {}
 }
-
-function getUnreadClaudeAnnos(chapterId, annos) {
-  var readIds = getLastReadIds(chapterId);
-  return annos.filter(function(a){
-    return a.author === "claude" && readIds.indexOf(a.id) === -1;
-  });
-}
-
-function getUnreadParagraphs(chapterId, annos) {
-  var unread = getUnreadClaudeAnnos(chapterId, annos);
+function getUnreadParagraphs(chId, annos) {
+  var readIds = getLastReadIds(chId);
   var pis = {};
-  unread.forEach(function(a){ pis[a.paragraph_index] = true; });
+  annos.forEach(function(a){
+    if (a.author === "claude" && readIds.indexOf(a.id) === -1) pis[a.paragraph_index] = true;
+  });
   return pis;
+}
+function isAnnoUnread(chId, anno) {
+  if (anno.author !== "claude") return false;
+  var readIds = getLastReadIds(chId);
+  return readIds.indexOf(anno.id) === -1;
+}
+
+// ── Reading progress ──
+function saveProgress(bookId, ci) {
+  try { localStorage.setItem("cr4-prog-" + bookId, String(ci)); } catch(e) {}
+}
+function getProgress(bookId) {
+  try { var v = localStorage.getItem("cr4-prog-" + bookId); return v !== null ? parseInt(v) : -1; } catch(e) { return -1; }
 }
 
 function esc(s) { var d = document.createElement("div"); d.textContent = s; return d.innerHTML; }
-
 function fmtTime(iso) {
   try { return new Date(iso).toLocaleString("zh-CN",{month:"short",day:"numeric",hour:"2-digit",minute:"2-digit"}); }
   catch(e) { return ""; }
 }
 
+// ── Smart chapter parser ──
 function parse(raw) {
+  // Strategy 1: 第X章/回/节/卷/篇
+  var result = parseByPattern(raw, /^第[一二三四五六七八九十百千零\d]+[章回节卷篇]/);
+  if (result.length > 1) return result;
+
+  // Strategy 2: detect TOC block at file start, use TOC entries as chapter titles
+  var tocResult = parseByTOC(raw);
+  if (tocResult.length > 1) return tocResult;
+
+  // Strategy 3: Chapter N / CHAPTER
+  result = parseByPattern(raw, /^(?:Chapter|CHAPTER|chapter)\s+\d+/i);
+  if (result.length > 1) return result;
+
+  // Strategy 4: standalone short lines as headings (surrounded by blank lines)
+  var headingResult = parseByHeadings(raw);
+  if (headingResult.length > 1) return headingResult;
+
+  // Strategy 5: numbered headings (just a number on its own line)
+  result = parseByPattern(raw, /^\d{1,3}$/);
+  if (result.length > 1) return result;
+
+  // Strategy 6: if single chapter is too long (>8000 chars), split by paragraph count
+  if (raw.trim().length > 8000) {
+    return splitBySize(raw, 4000);
+  }
+
+  return [{t:"全文", c:raw.trim()}];
+}
+
+function parseByPattern(raw, regex) {
   var lines = raw.split(/\r?\n/);
-  var out = [], t = "前言", buf = [], i;
-  for (i = 0; i < lines.length; i++) {
+  var out = [], t = "前言", buf = [];
+  for (var i = 0; i < lines.length; i++) {
     var tr = lines[i].trim();
-    if (/^第[一二三四五六七八九十百千零0-9]+[章回节卷篇]/.test(tr)) {
-      if (buf.length > 0) { var c = buf.join("\n").trim(); if (c.length > 100) out.push({t:t, c:c}); }
-      t = tr; buf = [];
+    if (regex.test(tr)) {
+      if (buf.length > 0) { var c = buf.join("\n").trim(); if (c.length > 50) out.push({t:t, c:c}); }
+      t = tr.length > 40 ? tr.slice(0, 40) : tr;
+      buf = [];
     } else { buf.push(lines[i]); }
   }
-  if (buf.length > 0) { var c2 = buf.join("\n").trim(); if (c2.length > 100) out.push({t:t, c:c2}); }
-  if (out.length === 0) out.push({t:"全文", c:raw.trim()});
+  if (buf.length > 0) { var c2 = buf.join("\n").trim(); if (c2.length > 50) out.push({t:t, c:c2}); }
+  return out;
+}
+
+function parseByTOC(raw) {
+  var lines = raw.split(/\r?\n/);
+  // Look for a "目录" line in the first 60 lines
+  var tocStart = -1;
+  for (var i = 0; i < Math.min(60, lines.length); i++) {
+    if (/^目录\s*$/.test(lines[i].trim()) || /^目\s*录\s*$/.test(lines[i].trim())) {
+      tocStart = i + 1;
+      break;
+    }
+  }
+  if (tocStart < 0) return [];
+
+  // Collect TOC entries: consecutive short lines after "目录"
+  var tocEntries = [];
+  for (var i = tocStart; i < lines.length; i++) {
+    var l = lines[i].trim();
+    if (!l) continue;
+    if (l.length > 30) break; // long line = end of TOC
+    // Skip meta lines like 封面, 版权, 目录 itself
+    if (/^(?:封面|版权|目录|前言|序言|序|后记|附录)\s*$/.test(l)) continue;
+    tocEntries.push(l);
+    if (tocEntries.length > 80) break;
+  }
+
+  if (tocEntries.length < 2) return [];
+
+  // Now use these entries as chapter titles to split the text
+  var out = [];
+  var fullText = raw;
+  var lastIdx = 0;
+  var lastTitle = "前言";
+
+  for (var i = 0; i < tocEntries.length; i++) {
+    var entry = tocEntries[i];
+    // Find this title in the body (after the TOC area)
+    // Search from a position well past the TOC
+    var searchFrom = raw.indexOf(entry, lastIdx > 200 ? lastIdx : 200);
+    if (searchFrom < 0) continue;
+
+    // Make sure this is on its own line (heading)
+    var lineStart = raw.lastIndexOf('\n', searchFrom);
+    var lineEnd = raw.indexOf('\n', searchFrom);
+    if (lineEnd < 0) lineEnd = raw.length;
+    var fullLine = raw.substring(lineStart + 1, lineEnd).trim();
+    if (fullLine.length > 40) continue; // not a heading
+
+    if (lastIdx < searchFrom) {
+      var chunk = raw.substring(lastIdx, searchFrom).trim();
+      // Remove TOC block from first chunk
+      if (out.length === 0) {
+        var tocEnd = raw.indexOf(tocEntries[tocEntries.length - 1]);
+        if (tocEnd > 0) {
+          tocEnd = raw.indexOf('\n', tocEnd);
+          if (tocEnd > 0 && tocEnd < searchFrom) {
+            chunk = raw.substring(tocEnd, searchFrom).trim();
+          }
+        }
+      }
+      if (chunk.length > 50) out.push({t: lastTitle, c: chunk});
+    }
+    lastTitle = entry;
+    lastIdx = searchFrom;
+  }
+
+  // Last chapter
+  if (lastIdx < raw.length) {
+    var chunk = raw.substring(lastIdx).trim();
+    // Remove the title line from content start
+    var nl = chunk.indexOf('\n');
+    if (nl > 0 && nl < 60) chunk = chunk.substring(nl).trim();
+    if (chunk.length > 50) out.push({t: lastTitle, c: chunk});
+  }
+
+  return out;
+}
+
+function parseByHeadings(raw) {
+  var lines = raw.split(/\r?\n/);
+  var candidates = [];
+
+  for (var i = 1; i < lines.length - 1; i++) {
+    var l = lines[i].trim();
+    var prevEmpty = !lines[i-1].trim();
+    var nextEmpty = (i + 1 < lines.length) ? !lines[i+1].trim() : true;
+    if (l && l.length >= 2 && l.length <= 25 && prevEmpty && nextEmpty) {
+      // Exclude lines that look like dialogue or normal text
+      if (/^[""「『]/.test(l)) continue;
+      if (/[。，！？；]$/.test(l)) continue;
+      candidates.push({line: i, title: l});
+    }
+  }
+
+  if (candidates.length < 2) return [];
+
+  var out = [];
+  var lastLine = 0;
+  var lastTitle = "前言";
+
+  for (var i = 0; i < candidates.length; i++) {
+    var buf = [];
+    for (var j = lastLine; j < candidates[i].line; j++) buf.push(lines[j]);
+    var c = buf.join("\n").trim();
+    if (c.length > 50) out.push({t: lastTitle, c: c});
+    lastTitle = candidates[i].title;
+    lastLine = candidates[i].line + 1;
+  }
+  var buf = [];
+  for (var j = lastLine; j < lines.length; j++) buf.push(lines[j]);
+  var c = buf.join("\n").trim();
+  if (c.length > 50) out.push({t: lastTitle, c: c});
+
+  return out;
+}
+
+function splitBySize(raw, targetSize) {
+  var paras = raw.split(/\n+/).filter(function(p){ return p.trim(); });
+  var out = [], buf = [], len = 0, n = 1;
+  for (var i = 0; i < paras.length; i++) {
+    buf.push(paras[i]);
+    len += paras[i].length;
+    if (len >= targetSize && i < paras.length - 1) {
+      out.push({t: "第 " + n + " 节", c: buf.join("\n")});
+      buf = []; len = 0; n++;
+    }
+  }
+  if (buf.length > 0) out.push({t: "第 " + n + " 节", c: buf.join("\n")});
   return out;
 }
 
 function supaFetch(path, method, body) {
   return new Promise(function(resolve, reject) {
-    var timer = setTimeout(function(){ reject(new Error("timeout")); }, 10000);
+    var timer = setTimeout(function(){ reject(new Error("timeout")); }, 15000);
     var opts = {method: method || "GET", headers: SUPA_HDRS};
     if (body) opts.body = JSON.stringify(body);
     fetch(SUPA_URL + path, opts).then(function(r) {
@@ -426,7 +638,7 @@ function setScroll(val) { var sc = document.getElementById("rscroll"); if (sc) s
 function refreshReader() {
   var scrollPos = getScroll();
   var savedP = _openP;
-  showReader();
+  showReader(true);
   _openP = savedP;
   setScroll(scrollPos);
   var el = document.getElementById("an-" + savedP);
@@ -451,7 +663,7 @@ function onFile(el) {
   r.onload = function(ev) {
     _ft = ev.target.result;
     var chs = parse(_ft);
-    document.getElementById("m-info").textContent = "已读取 " + _ft.length + " 字，" + chs.length + " 个章节";
+    document.getElementById("m-info").textContent = "已读取 " + _ft.length + " 字，识别到 " + chs.length + " 个章节";
   };
   r.readAsText(f, "UTF-8");
   if (!document.getElementById("m-title").value) document.getElementById("m-title").value = f.name.replace(/\.txt$/i,"");
@@ -509,9 +721,10 @@ function upload() {
 function showShelf() {
   stopPoll();
   document.getElementById("reader").style.display = "none";
+  document.getElementById("progress").style.display = "none";
   document.getElementById("shelf").style.display = "block";
   var el = document.getElementById("main");
-  el.innerHTML = '<div style="text-align:center;padding:60px;color:var(--text-muted)"><div style="font-size:24px;margin-bottom:8px">...</div>加载中</div>';
+  el.innerHTML = '<div style="text-align:center;padding:60px;color:var(--text-muted)">加载中...</div>';
 
   supaFetch("books?order=created_at.desc", "GET").then(function(data) {
     _books = data; _cloud = true;
@@ -532,21 +745,19 @@ function renderShelf() {
     return;
   }
   var cs = [
-    ["#7B6B55","#9B8B6F"],
-    ["#5A6B4A","#7A8B6A"],
-    ["#4A5A7A","#6A7A9A"],
-    ["#7A4A5B","#9A6A7B"],
-    ["#6B5A7A","#8B7A9A"],
-    ["#5A7B7B","#7A9B9B"],
+    ["#7B6B55","#9B8B6F"],["#5A6B4A","#7A8B6A"],["#4A5A7A","#6A7A9A"],
+    ["#7A4A5B","#9A6A7B"],["#6B5A7A","#8B7A9A"],["#5A7B7B","#7A9B9B"],
   ];
   var h = '<div class="shelf-title">我们的书架 · ' + _books.length + ' 本</div><div class="grid">';
   for (var i = 0; i < _books.length; i++) {
     var b = _books[i], ci = b.title.length % cs.length, co = cs[ci];
+    var prog = getProgress(b.id);
     h += '<div class="card-wrap">';
     h += '<div class="card" style="background:linear-gradient(145deg,'+co[0]+','+co[1]+')" onclick="openBook('+i+')">';
     h += '<div class="sp"></div><div class="spine-lines"></div>';
     h += '<span>' + esc(b.title) + '</span>';
     if (b.author) h += '<small>' + esc(b.author) + '</small>';
+    if (prog > 0) h += '<span class="last-read">读到第' + (prog+1) + '章</span>';
     h += '</div>';
     h += '<button class="del" onclick="event.stopPropagation();delBook('+i+')">×</button>';
     h += '</div>';
@@ -558,15 +769,19 @@ function renderShelf() {
 function openBook(idx) {
   var b = _books[idx];
   _cur = b;
+  var prog = getProgress(b.id);
   if (_cloud) {
     supaFetch("chapters?book_id=eq." + b.id + "&order=chapter_number.asc", "GET").then(function(data) {
-      _chs = data; _ci = 0; _openP = -1;
+      _chs = data;
+      _ci = (prog >= 0 && prog < data.length) ? prog : 0;
+      _openP = -1;
       loadAnnos();
     }).catch(function(e) { alert("加载失败"); });
   } else {
     try { _chs = JSON.parse(localStorage.getItem("cr4-ch-" + b.id)) || []; } catch(e) { _chs = []; }
-    try { _annos = JSON.parse(localStorage.getItem("cr4-an-" + b.id + "-" + 0)) || []; } catch(e) { _annos = []; }
-    _ci = 0; _openP = -1;
+    _ci = (prog >= 0 && prog < _chs.length) ? prog : 0;
+    try { _annos = JSON.parse(localStorage.getItem("cr4-an-" + b.id + "-" + _ci)) || []; } catch(e) { _annos = []; }
+    _openP = -1;
     showReader();
   }
 }
@@ -576,8 +791,7 @@ function delBook(idx) {
   var b = _books[idx];
   if (_cloud) {
     supaFetch("books?id=eq." + b.id, "DELETE").then(function() {
-      _books.splice(idx, 1);
-      renderShelf();
+      _books.splice(idx, 1); renderShelf();
     }).catch(function(e) { alert("删除失败"); });
   } else {
     try { localStorage.removeItem("cr4-ch-" + b.id); } catch(e) {}
@@ -591,8 +805,7 @@ function loadAnnos() {
   if (!_chs[_ci]) return;
   if (_cloud) {
     supaFetch("annotations?chapter_id=eq." + _chs[_ci].id + "&order=paragraph_index.asc,created_at.asc", "GET").then(function(data) {
-      _annos = data;
-      showReader();
+      _annos = data; showReader();
     }).catch(function(e) { _annos = []; showReader(); });
   } else {
     try { _annos = JSON.parse(localStorage.getItem("cr4-an-" + _cur.id + "-" + _ci)) || []; } catch(e) { _annos = []; }
@@ -601,12 +814,14 @@ function loadAnnos() {
 }
 
 // ── Reader ──
-function showReader() {
+function showReader(isRefresh) {
   document.getElementById("shelf").style.display = "none";
   var ch = _chs[_ci]; if (!ch) return;
   var paras = ch.content.split(/\n+/).filter(function(p){ return p.trim(); });
   var unreadParas = getUnreadParagraphs(ch.id, _annos);
-  var hasAnyUnread = Object.keys(unreadParas).length > 0;
+
+  // Save reading progress
+  saveProgress(_cur.id, _ci);
 
   var h = '<div class="rhd">';
   h += '<button class="sm" onclick="backToShelf()">← 书架</button>';
@@ -616,8 +831,8 @@ function showReader() {
   h += '<button class="sm" onclick="showToc()">目录</button>';
   h += '</div>';
 
-  h += '<div id="rscroll" style="overflow-y:auto;padding:28px 16px;height:calc(100vh - 52px);height:calc(100dvh - 52px);-webkit-overflow-scrolling:touch;display:flex;justify-content:center">';
-  h += '<div style="max-width:620px;width:100%;padding-left:20px">';
+  h += '<div class="read-area" id="rscroll" onscroll="onReadScroll()">';
+  h += '<div class="read-inner">';
   h += '<h2 class="cht">' + esc(ch.title) + '</h2>';
 
   for (var i = 0; i < paras.length; i++) {
@@ -625,14 +840,18 @@ function showReader() {
     var has = pa.length > 0;
     var isUnread = unreadParas[i];
     h += '<p class="pa' + (has?' hl':'') + '" onclick="toggleP('+i+')">';
-    if (isUnread && _showA) h += '<span class="unread-dot"></span>';
+    if (isUnread && _showA) {
+      h += '<span class="unread-bar"></span>';
+      h += '<span class="unread-badge">新回复</span>';
+    }
     h += esc(paras[i]);
     if (has) h += '<span class="bc">' + pa.length + '条</span>';
     h += '</p>';
     h += '<div class="an" id="an-'+i+'" style="display:none">';
     for (var j = 0; j < pa.length; j++) {
       var a = pa[j], ic = a.author === "claude";
-      h += '<div class="bub ' + (ic?'cl':'me') + '">';
+      var ubub = ic && isAnnoUnread(ch.id, a);
+      h += '<div class="bub ' + (ic?'cl':'me') + (ubub?' unread-bub':'') + '">';
       h += '<button class="dl" onclick="event.stopPropagation();delAnno(\''+a.id+'\')">删除</button>';
       h += '<span class="nm ' + (ic?'c':'n') + '">' + (ic?'Claude':'柰柰') + '</span>';
       h += '<span class="tm">' + fmtTime(a.created_at) + '</span>';
@@ -652,10 +871,26 @@ function showReader() {
 
   document.getElementById("reader").innerHTML = h;
   document.getElementById("reader").style.display = "block";
+  document.getElementById("progress").style.display = "block";
+  updateProgress();
   startPoll();
 }
 
-function backToShelf() { stopPoll(); showShelf(); }
+function onReadScroll() { updateProgress(); }
+function updateProgress() {
+  var sc = document.getElementById("rscroll");
+  if (!sc) return;
+  var pct = sc.scrollHeight <= sc.clientHeight ? 100 : Math.round(sc.scrollTop / (sc.scrollHeight - sc.clientHeight) * 100);
+  var bar = document.getElementById("pbar");
+  if (bar) bar.style.width = pct + "%";
+}
+
+function backToShelf() {
+  var ch = _chs[_ci];
+  if (ch) markChapterRead(ch.id, _annos);
+  stopPoll();
+  showShelf();
+}
 
 function toggleP(i) {
   if (!_showA) return;
@@ -666,7 +901,7 @@ function toggleP(i) {
   var el = document.getElementById("an-" + i);
   if (el) el.style.display = "block";
 
-  // Mark as read when expanding a paragraph with unread claude annotations
+  // Mark as read
   var paraAnnos = _annos.filter(function(a){ return a.paragraph_index === i && a.author === "claude"; });
   if (paraAnnos.length > 0 && ch) {
     var readIds = getLastReadIds(ch.id);
@@ -676,12 +911,15 @@ function toggleP(i) {
     });
     if (changed) {
       try { localStorage.setItem(getReadKey(ch.id), JSON.stringify(readIds)); } catch(e) {}
-      // Remove the unread dot for this paragraph
-      var dots = document.querySelectorAll('#an-' + i);
-      var pEl = dots[0] ? dots[0].previousElementSibling : null;
+      var pEl = el.previousElementSibling;
       if (pEl) {
-        var dot = pEl.querySelector('.unread-dot');
-        if (dot) dot.remove();
+        var bar = pEl.querySelector('.unread-bar');
+        var badge = pEl.querySelector('.unread-badge');
+        if (bar) bar.remove();
+        if (badge) badge.remove();
+        // Remove glow border from bubbles
+        var ubs = el.querySelectorAll('.unread-bub');
+        for (var k = 0; k < ubs.length; k++) ubs[k].classList.remove('unread-bub');
       }
     }
   }
@@ -695,17 +933,14 @@ function addAnno(pi) {
   var ch = _chs[_ci];
   var paras = ch.content.split(/\n+/).filter(function(p){ return p.trim(); });
   var annoData = {
-    chapter_id: ch.id,
-    author: "nainai",
+    chapter_id: ch.id, author: "nainai",
     content: ta.value.trim(),
     highlighted_text: (paras[pi]||"").slice(0,80),
     paragraph_index: pi
   };
-
   if (_cloud) {
     supaFetch("annotations", "POST", annoData).then(function(res) {
-      _annos.push(res[0]);
-      refreshReader();
+      _annos.push(res[0]); refreshReader();
     }).catch(function(e) { alert("评论失败: " + e.message); });
   } else {
     annoData.id = "a" + Date.now();
@@ -719,8 +954,7 @@ function addAnno(pi) {
 function delAnno(aid) {
   if (_cloud) {
     supaFetch("annotations?id=eq." + aid, "DELETE").then(function() {
-      _annos = _annos.filter(function(a){ return a.id !== aid; });
-      refreshReader();
+      _annos = _annos.filter(function(a){ return a.id !== aid; }); refreshReader();
     }).catch(function(e) { alert("删除失败"); });
   } else {
     _annos = _annos.filter(function(a){ return a.id !== aid; });
@@ -731,10 +965,8 @@ function delAnno(aid) {
 
 function goCh(n) {
   if (n < 0 || n >= _chs.length) return;
-  // Mark current chapter fully read before leaving
   var ch = _chs[_ci];
   if (ch) markChapterRead(ch.id, _annos);
-
   _ci = n; _openP = -1;
   if (_cloud) { loadAnnos(); }
   else {
@@ -752,10 +984,7 @@ function startPoll() {
   _poll = setInterval(function() {
     var ch = _chs[_ci]; if (!ch) return;
     supaFetch("annotations?chapter_id=eq." + ch.id + "&order=paragraph_index.asc,created_at.asc", "GET").then(function(data) {
-      if (data.length !== _annos.length) {
-        _annos = data;
-        refreshReader();
-      }
+      if (data.length !== _annos.length) { _annos = data; refreshReader(); }
     }).catch(function(){});
   }, 10000);
 }
@@ -765,7 +994,11 @@ function stopPoll() { if (_poll) { clearInterval(_poll); _poll = null; } }
 function showToc() {
   var h = '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px"><h3>目录</h3><button onclick="hideToc()" style="background:none;border:none;cursor:pointer;color:var(--text-muted);font-size:18px">×</button></div>';
   for (var i = 0; i < _chs.length; i++) {
-    h += '<div class="toc-i' + (i===_ci?' cur':'') + '" onclick="goCh('+i+');hideToc()">' + esc(_chs[i].title) + '</div>';
+    var isCur = i === _ci;
+    h += '<div class="toc-i' + (isCur?' cur':'') + '" onclick="goCh('+i+');hideToc()">';
+    h += '<span style="color:var(--text-muted);font-size:10px;margin-right:8px;min-width:20px">' + (i+1) + '</span>';
+    h += esc(_chs[i].title);
+    h += '</div>';
   }
   document.getElementById("toc").innerHTML = h;
   document.getElementById("toc").style.display = "block";
@@ -780,7 +1013,7 @@ window.openModal=openModal; window.closeModal=closeModal; window.onFile=onFile; 
 window.showShelf=showShelf; window.openBook=openBook; window.delBook=delBook;
 window.backToShelf=backToShelf; window.toggleP=toggleP; window.toggleAnno=toggleAnno;
 window.addAnno=addAnno; window.delAnno=delAnno; window.goCh=goCh;
-window.showToc=showToc; window.hideToc=hideToc;
+window.showToc=showToc; window.hideToc=hideToc; window.onReadScroll=onReadScroll;
 
 showShelf();
 
