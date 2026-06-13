@@ -347,6 +347,25 @@ input:focus,textarea:focus{outline:none;border-color:var(--accent)!important;box
   white-space:nowrap;font-family:'LXGW WenKai',sans-serif;
 }
 
+/* ── Loading overlay ── */
+.loading{
+  position:fixed;inset:0;z-index:80;
+  background:rgba(250,247,242,.85);
+  backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:12px;
+}
+.loading-dot{
+  width:6px;height:6px;border-radius:50%;
+  background:var(--accent);
+  display:inline-block;margin:0 3px;
+  animation:ldBounce .6s ease-in-out infinite alternate;
+}
+.loading-dot:nth-child(2){animation-delay:.15s}
+.loading-dot:nth-child(3){animation-delay:.3s}
+@keyframes ldBounce{from{opacity:.3;transform:translateY(0)}to{opacity:1;transform:translateY(-6px)}}
+.loading span{font-size:12px;color:var(--text-muted);letter-spacing:.5px}
+
 /* ── Mobile: long-press hint ── */
 @media(max-width:480px){
   .grid{gap:14px}
@@ -374,6 +393,7 @@ input:focus,textarea:focus{outline:none;border-color:var(--accent)!important;box
 <div id="toc-bg" class="toc-bg" style="display:none" onclick="hideToc()"></div>
 <div id="toc" class="toc" style="display:none"></div>
 <div id="progress" class="progress-wrap" style="display:none"><div class="progress-bar" id="pbar"></div></div>
+<div id="loading" class="loading" style="display:none"><div><span class="loading-dot"></span><span class="loading-dot"></span><span class="loading-dot"></span></div><span>正在翻开...</span></div>
 
 <div id="modal" class="overlay" style="display:none">
   <div class="box">
@@ -766,17 +786,23 @@ function renderShelf() {
   el.innerHTML = h;
 }
 
+var _loading = false;
+function showLoading() { _loading = true; document.getElementById("loading").style.display = "flex"; }
+function hideLoading() { _loading = false; document.getElementById("loading").style.display = "none"; }
+
 function openBook(idx) {
+  if (_loading) return;
   var b = _books[idx];
   _cur = b;
   var prog = getProgress(b.id);
   if (_cloud) {
+    showLoading();
     supaFetch("chapters?book_id=eq." + b.id + "&order=chapter_number.asc", "GET").then(function(data) {
       _chs = data;
       _ci = (prog >= 0 && prog < data.length) ? prog : 0;
       _openP = -1;
       loadAnnos();
-    }).catch(function(e) { alert("加载失败"); });
+    }).catch(function(e) { hideLoading(); alert("加载失败"); });
   } else {
     try { _chs = JSON.parse(localStorage.getItem("cr4-ch-" + b.id)) || []; } catch(e) { _chs = []; }
     _ci = (prog >= 0 && prog < _chs.length) ? prog : 0;
@@ -805,8 +831,8 @@ function loadAnnos() {
   if (!_chs[_ci]) return;
   if (_cloud) {
     supaFetch("annotations?chapter_id=eq." + _chs[_ci].id + "&order=paragraph_index.asc,created_at.asc", "GET").then(function(data) {
-      _annos = data; showReader();
-    }).catch(function(e) { _annos = []; showReader(); });
+      _annos = data; hideLoading(); showReader();
+    }).catch(function(e) { _annos = []; hideLoading(); showReader(); });
   } else {
     try { _annos = JSON.parse(localStorage.getItem("cr4-an-" + _cur.id + "-" + _ci)) || []; } catch(e) { _annos = []; }
     showReader();
