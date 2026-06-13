@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-
-<html>
+<html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
@@ -10,69 +9,314 @@
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=LXGW+WenKai:wght@300;400;700&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-body{font-family:'LXGW WenKai',-apple-system,sans-serif;background:#FAF6F0;color:#3A3028}
-button{font-family:'LXGW WenKai',-apple-system,sans-serif;-webkit-appearance:none}
-input,textarea{font-family:'LXGW WenKai',-apple-system,sans-serif;-webkit-appearance:none}
-input:focus,textarea:focus{outline:none;border-color:#B8860B!important}
-::-webkit-scrollbar{width:4px}::-webkit-scrollbar-thumb{background:#E8DFD4;border-radius:2px}
-.hd{padding:14px 16px;background:#FFFDF8;border-bottom:1px solid #E8DFD4;display:flex;align-items:center;justify-content:space-between;box-shadow:0 1px 4px rgba(139,115,85,.06)}
-.hd h1{font-family:'Noto Serif SC',serif;font-size:19px;color:#B8860B;letter-spacing:2px}
-.hd small{font-size:10px;color:#8C7B6B;display:block;margin-top:2px}
-.pri{padding:8px 16px;border-radius:18px;border:none;background:#B8860B;color:#fff;font-size:13px;cursor:pointer}
-.btn{padding:8px 14px;border-radius:18px;border:1px solid #E8DFD4;background:#FFFDF8;color:#3A3028;font-size:13px;cursor:pointer}
-.sm{padding:4px 9px;border-radius:16px;border:1px solid #E8DFD4;background:#FFFDF8;font-size:10px;cursor:pointer}
-.sm.on{background:#B8860B;color:#fff;border-color:#B8860B}
-.overlay{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.4);display:flex;align-items:center;justify-content:center;z-index:99}
-.box{background:#FFFDF8;border-radius:14px;padding:24px;width:88%;max-width:380px}
-.box h2{font-family:'Noto Serif SC',serif;font-size:18px;color:#B8860B;margin:0 0 16px}
-.box label{font-size:12px;color:#8C7B6B;display:block;margin:10px 0 4px}
-.box input[type=text]{width:100%;padding:9px 11px;border-radius:8px;border:1px solid #E8DFD4;font-size:14px;background:#FAF6F0}
-.grid{display:flex;flex-wrap:wrap;gap:18px;margin-top:16px}
-.card{width:125px;height:180px;border-radius:3px 10px 10px 3px;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:16px 12px;position:relative;overflow:hidden;cursor:pointer;box-shadow:3px 3px 12px rgba(139,115,85,.08)}
-.card .sp{position:absolute;left:0;top:0;bottom:0;width:5px;background:rgba(0,0,0,.15)}
-.card span{font-family:'Noto Serif SC',serif;font-size:14px;font-weight:700;color:#fff;text-align:center;line-height:1.5;text-shadow:0 1px 2px rgba(0,0,0,.3);word-break:break-all}
-.card small{font-size:10px;color:rgba(255,255,255,.7);margin-top:8px}
-.del{position:absolute;top:-6px;right:-6px;width:20px;height:20px;border-radius:50%;border:none;background:#c0392b;color:#fff;font-size:11px;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 4px rgba(0,0,0,.2)}
-.rhd{padding:10px 12px;background:#FFFDF8;border-bottom:1px solid #E8DFD4;display:flex;align-items:center;gap:6px}
+
+:root {
+  --bg: #FAF7F2;
+  --card-bg: #FFFDF9;
+  --border: #E8DFD4;
+  --accent: #B8860B;
+  --accent-light: #D4A84B;
+  --text: #3A3028;
+  --text-muted: #8C7B6B;
+  --claude-bg: #EBF1F8;
+  --claude-border: #C4D8EC;
+  --claude-accent: #5B7FA5;
+  --nainai-bg: #FDF5EE;
+  --nainai-border: #E8D5C4;
+  --nainai-accent: #A0775A;
+  --shadow-sm: 0 1px 3px rgba(139,115,85,.06);
+  --shadow-md: 0 4px 12px rgba(139,115,85,.08);
+  --shadow-lg: 0 8px 24px rgba(139,115,85,.12);
+  --radius: 12px;
+  --radius-lg: 16px;
+}
+
+body{font-family:'LXGW WenKai',-apple-system,sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden}
+button{font-family:'LXGW WenKai',-apple-system,sans-serif;-webkit-appearance:none;transition:all .2s ease}
+input,textarea{font-family:'LXGW WenKai',-apple-system,sans-serif;-webkit-appearance:none;transition:border-color .2s ease}
+input:focus,textarea:focus{outline:none;border-color:var(--accent)!important;box-shadow:0 0 0 3px rgba(184,134,11,.08)}
+
+::-webkit-scrollbar{width:5px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px}
+::-webkit-scrollbar-thumb:hover{background:var(--text-muted)}
+
+/* ── Header ── */
+.hd{
+  padding:16px 20px;
+  background:var(--card-bg);
+  border-bottom:1px solid var(--border);
+  display:flex;align-items:center;justify-content:space-between;
+  box-shadow:var(--shadow-sm);
+  position:sticky;top:0;z-index:10;
+  backdrop-filter:blur(12px);
+  background:rgba(255,253,249,.92);
+}
+.hd h1{font-family:'Noto Serif SC',serif;font-size:20px;color:var(--accent);letter-spacing:3px;font-weight:700}
+.hd small{font-size:11px;color:var(--text-muted);display:block;margin-top:3px;letter-spacing:.5px}
+
+/* ── Buttons ── */
+.pri{
+  padding:9px 18px;border-radius:20px;border:none;
+  background:linear-gradient(135deg,var(--accent),var(--accent-light));
+  color:#fff;font-size:13px;cursor:pointer;font-weight:600;
+  box-shadow:0 2px 8px rgba(184,134,11,.2);
+  letter-spacing:.5px;
+}
+.pri:hover{transform:translateY(-1px);box-shadow:0 4px 12px rgba(184,134,11,.25)}
+.pri:active{transform:translateY(0)}
+
+.btn{
+  padding:8px 16px;border-radius:20px;
+  border:1px solid var(--border);background:var(--card-bg);
+  color:var(--text);font-size:13px;cursor:pointer;
+  transition:all .2s ease;
+}
+.btn:hover{border-color:var(--accent);color:var(--accent);background:#FFFCF5}
+
+.sm{
+  padding:5px 12px;border-radius:16px;
+  border:1px solid var(--border);background:var(--card-bg);
+  font-size:11px;cursor:pointer;letter-spacing:.3px;
+  transition:all .2s ease;
+}
+.sm:hover{border-color:var(--accent);color:var(--accent)}
+.sm.on{background:var(--accent);color:#fff;border-color:var(--accent);box-shadow:0 2px 6px rgba(184,134,11,.2)}
+
+/* ── Modal ── */
+.overlay{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.45);display:flex;align-items:center;justify-content:center;z-index:99;backdrop-filter:blur(4px)}
+.box{
+  background:var(--card-bg);border-radius:var(--radius-lg);
+  padding:28px;width:88%;max-width:400px;
+  box-shadow:var(--shadow-lg);
+  animation:modalIn .25s ease;
+}
+@keyframes modalIn{from{opacity:0;transform:scale(.95) translateY(10px)}to{opacity:1;transform:scale(1) translateY(0)}}
+.box h2{font-family:'Noto Serif SC',serif;font-size:19px;color:var(--accent);margin:0 0 20px;letter-spacing:1px}
+.box label{font-size:12px;color:var(--text-muted);display:block;margin:12px 0 5px;font-weight:600}
+.box input[type=text]{width:100%;padding:10px 13px;border-radius:10px;border:1px solid var(--border);font-size:14px;background:var(--bg)}
+
+/* ── Book Grid ── */
+.shelf-title{
+  font-family:'Noto Serif SC',serif;font-size:14px;color:var(--text-muted);
+  letter-spacing:1.5px;padding:8px 0 4px;
+  border-bottom:1px solid var(--border);margin-bottom:20px;
+}
+.grid{display:flex;flex-wrap:wrap;gap:20px;justify-content:flex-start}
+
+.card-wrap{position:relative;transition:transform .2s ease}
+.card-wrap:hover{transform:translateY(-3px)}
+
+.card{
+  width:130px;height:185px;
+  border-radius:4px 12px 12px 4px;
+  display:flex;flex-direction:column;justify-content:center;align-items:center;
+  padding:18px 14px;position:relative;overflow:hidden;cursor:pointer;
+  box-shadow:var(--shadow-md);
+  transition:box-shadow .2s ease;
+}
+.card:hover{box-shadow:var(--shadow-lg)}
+.card .sp{position:absolute;left:0;top:0;bottom:0;width:5px;background:rgba(0,0,0,.18)}
+.card .spine-lines{
+  position:absolute;left:6px;top:15%;bottom:15%;width:1px;
+  background:repeating-linear-gradient(to bottom,rgba(255,255,255,.15) 0,rgba(255,255,255,.15) 3px,transparent 3px,transparent 8px);
+}
+.card span{
+  font-family:'Noto Serif SC',serif;font-size:14px;font-weight:700;
+  color:#fff;text-align:center;line-height:1.6;
+  text-shadow:0 1px 3px rgba(0,0,0,.25);word-break:break-all;
+}
+.card small{font-size:10px;color:rgba(255,255,255,.75);margin-top:10px;letter-spacing:.5px}
+
+.del{
+  position:absolute;top:-5px;right:-5px;
+  width:22px;height:22px;border-radius:50%;border:none;
+  background:#D35452;color:#fff;font-size:12px;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:0 2px 6px rgba(211,84,82,.3);
+  opacity:0;transition:opacity .2s ease;
+}
+.card-wrap:hover .del{opacity:1}
+
+/* ── Reader Header ── */
+.rhd{
+  padding:12px 16px;
+  background:rgba(255,253,249,.92);
+  backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--border);
+  display:flex;align-items:center;gap:8px;
+  position:sticky;top:0;z-index:10;
+  box-shadow:var(--shadow-sm);
+}
 .ti{flex:1;text-align:center;min-width:0}
-.ti h3{font-family:'Noto Serif SC',serif;font-size:13px;color:#B8860B;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.ti small{font-size:10px;color:#8C7B6B}
-.cht{font-family:'Noto Serif SC',serif;font-size:19px;font-weight:700;text-align:center;margin-bottom:28px;color:#3A3028;letter-spacing:1.5px;line-height:1.5}
-.pa{font-family:'Noto Serif SC',serif;font-size:15px;line-height:2;text-indent:2em;padding:2px 6px;margin:0 0 2px;cursor:pointer;border-radius:4px;border-left:3px solid transparent;position:relative}
-.pa:active{background:#F5EDE3}
-.pa.hl{background:linear-gradient(to right,transparent,#FDF5EE);border-left-color:#B8860B}
-.pa .bc{position:absolute;right:2px;top:1px;font-size:9px;color:#B8860B}
-.an{padding:8px 8px 8px 12px}
-.bub{padding:10px 12px;border-radius:10px;margin-bottom:6px}
-.bub.me{background:#FDF5EE;border:1px solid #E8D5C4}
-.bub.cl{background:#EEF4FA;border:1px solid #C4D8EC}
-.bub .nm{font-size:11px;font-weight:700}
-.bub .nm.n{color:#A0775A}.bub .nm.c{color:#5B7FA5}
-.bub .tm{font-size:10px;color:#8C7B6B;margin-left:6px}
-.bub .hl2{font-size:11px;color:#8C7B6B;font-style:italic;padding-left:8px;margin:4px 0 6px;line-height:1.5}
-.bub .hl2.n{border-left:2px solid #A0775A}.bub .hl2.c{border-left:2px solid #5B7FA5}
-.bub .ct{font-size:13px;line-height:1.8;margin-top:4px}
-.bub .dl{float:right;background:none;border:none;color:#8C7B6B;font-size:10px;cursor:pointer}
-.cr{display:flex;gap:6px;margin-top:4px}
-.cr textarea{flex:1;padding:8px 10px;border-radius:10px;border:1px solid #E8DFD4;font-size:12px;resize:none;height:44px;background:#FFFDF8;line-height:1.5}
-.nv{display:flex;justify-content:space-between;align-items:center;padding:28px 0 44px;border-top:1px solid #E8DFD4;margin-top:28px}
-.toc{position:fixed;top:0;left:0;bottom:0;width:220px;background:#FFFDF8;z-index:50;overflow-y:auto;padding:14px;box-shadow:4px 0 16px rgba(0,0,0,.1)}
-.toc-bg{position:fixed;inset:0;background:rgba(0,0,0,.2);z-index:49}
-.toc h3{font-family:'Noto Serif SC',serif;font-size:14px;color:#B8860B;margin-bottom:10px}
-.toc-i{padding:6px 8px;border-radius:6px;font-size:12px;cursor:pointer;margin-bottom:2px;line-height:1.4}
-.toc-i.cur{background:#F5EDE3;color:#B8860B;font-weight:600}
-.empty{text-align:center;padding:60px 16px}
-.empty p{font-size:13px;color:#8C7B6B;margin:6px 0 16px}
+.ti h3{font-family:'Noto Serif SC',serif;font-size:14px;color:var(--accent);font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ti small{font-size:10px;color:var(--text-muted);letter-spacing:.3px}
+
+/* ── Reading Content ── */
+.cht{
+  font-family:'Noto Serif SC',serif;font-size:20px;font-weight:700;
+  text-align:center;margin-bottom:32px;color:var(--text);
+  letter-spacing:2px;line-height:1.6;
+  position:relative;
+}
+.cht::after{
+  content:'';display:block;width:40px;height:2px;
+  background:linear-gradient(to right,transparent,var(--accent),transparent);
+  margin:16px auto 0;
+}
+
+.pa{
+  font-family:'Noto Serif SC',serif;font-size:15.5px;line-height:2.1;
+  text-indent:2em;padding:4px 8px;margin:0 0 2px;
+  cursor:pointer;border-radius:6px;
+  border-left:3px solid transparent;
+  position:relative;
+  transition:all .2s ease;
+}
+.pa:hover{background:rgba(184,134,11,.04)}
+.pa:active{background:rgba(184,134,11,.08)}
+.pa.hl{
+  background:linear-gradient(to right,rgba(184,134,11,.04),rgba(253,245,238,.6));
+  border-left-color:var(--accent);
+}
+.pa .bc{
+  position:absolute;right:4px;top:4px;
+  font-size:9px;color:var(--accent);
+  background:rgba(184,134,11,.08);
+  padding:1px 6px;border-radius:8px;
+  font-family:'LXGW WenKai',sans-serif;
+}
+
+/* ── Unread dot ── */
+.pa .unread-dot{
+  position:absolute;left:-14px;top:50%;transform:translateY(-50%);
+  width:8px;height:8px;border-radius:50%;
+  background:var(--claude-accent);
+  box-shadow:0 0 6px rgba(91,127,165,.4);
+  animation:unreadPulse 2s ease-in-out infinite;
+}
+@keyframes unreadPulse{0%,100%{opacity:1;transform:translateY(-50%) scale(1)}50%{opacity:.6;transform:translateY(-50%) scale(.85)}}
+
+/* ── Annotations ── */
+.an{padding:10px 8px 10px 14px;animation:slideDown .2s ease}
+@keyframes slideDown{from{opacity:0;max-height:0}to{opacity:1;max-height:2000px}}
+
+.bub{
+  padding:12px 14px;border-radius:var(--radius);margin-bottom:8px;
+  position:relative;
+  transition:all .2s ease;
+  animation:bubIn .2s ease;
+}
+@keyframes bubIn{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:translateY(0)}}
+
+.bub.me{background:var(--nainai-bg);border:1px solid var(--nainai-border)}
+.bub.cl{background:var(--claude-bg);border:1px solid var(--claude-border)}
+
+.bub .nm{font-size:11px;font-weight:700;letter-spacing:.3px}
+.bub .nm.n{color:var(--nainai-accent)}
+.bub .nm.c{color:var(--claude-accent)}
+.bub .tm{font-size:10px;color:var(--text-muted);margin-left:8px}
+
+.bub .hl2{
+  font-size:11px;color:var(--text-muted);font-style:italic;
+  padding:4px 10px;margin:6px 0 8px;line-height:1.6;
+  border-radius:4px;
+}
+.bub .hl2.n{border-left:2px solid var(--nainai-accent);background:rgba(160,119,90,.04)}
+.bub .hl2.c{border-left:2px solid var(--claude-accent);background:rgba(91,127,165,.04)}
+
+.bub .ct{font-size:13.5px;line-height:1.9;margin-top:5px}
+
+.bub .dl{
+  position:absolute;top:8px;right:8px;
+  background:none;border:none;color:var(--text-muted);
+  font-size:10px;cursor:pointer;opacity:0;
+  transition:opacity .2s ease;
+}
+.bub:hover .dl{opacity:.6}
+.bub .dl:hover{opacity:1;color:#D35452}
+
+/* ── Comment input ── */
+.cr{display:flex;gap:8px;margin-top:6px;align-items:flex-end}
+.cr textarea{
+  flex:1;padding:10px 12px;border-radius:var(--radius);
+  border:1px solid var(--border);font-size:13px;
+  resize:none;height:48px;background:var(--card-bg);
+  line-height:1.6;
+}
+.cr .send-btn{
+  padding:8px 14px;border-radius:var(--radius);border:none;
+  background:linear-gradient(135deg,var(--accent),var(--accent-light));
+  color:#fff;font-size:11px;font-weight:600;
+  cursor:pointer;white-space:nowrap;
+  height:36px;
+  box-shadow:0 2px 6px rgba(184,134,11,.15);
+}
+.cr .send-btn:hover{box-shadow:0 3px 8px rgba(184,134,11,.25)}
+
+/* ── Nav ── */
+.nv{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:32px 0 48px;
+  border-top:1px solid var(--border);margin-top:36px;
+}
+.nv .page-info{font-size:11px;color:var(--text-muted);letter-spacing:.5px}
+
+/* ── TOC ── */
+.toc{
+  position:fixed;top:0;left:0;bottom:0;width:240px;
+  background:var(--card-bg);z-index:50;overflow-y:auto;
+  padding:18px;box-shadow:8px 0 24px rgba(0,0,0,.08);
+  animation:tocIn .2s ease;
+}
+@keyframes tocIn{from{transform:translateX(-100%)}to{transform:translateX(0)}}
+.toc-bg{position:fixed;inset:0;background:rgba(0,0,0,.25);z-index:49;backdrop-filter:blur(2px)}
+.toc h3{font-family:'Noto Serif SC',serif;font-size:15px;color:var(--accent);margin-bottom:14px;letter-spacing:1px}
+.toc-i{
+  padding:8px 10px;border-radius:8px;font-size:12px;
+  cursor:pointer;margin-bottom:3px;line-height:1.5;
+  transition:all .15s ease;
+  color:var(--text);
+}
+.toc-i:hover{background:rgba(184,134,11,.06);color:var(--accent)}
+.toc-i.cur{background:rgba(184,134,11,.1);color:var(--accent);font-weight:600}
+
+/* ── Empty state ── */
+.empty{text-align:center;padding:80px 20px}
+.empty .icon{font-size:52px;margin-bottom:12px;filter:grayscale(.2)}
+.empty h3{font-family:'Noto Serif SC',serif;font-size:18px;margin-bottom:8px;color:var(--text);letter-spacing:1px}
+.empty p{font-size:13px;color:var(--text-muted);margin:0 0 20px;line-height:1.8}
+
+/* ── Unread badge on book card ── */
+.card-badge{
+  position:absolute;top:8px;right:8px;
+  min-width:18px;height:18px;padding:0 5px;
+  border-radius:9px;
+  background:var(--claude-accent);color:#fff;
+  font-size:10px;font-weight:700;
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:0 2px 6px rgba(91,127,165,.35);
+  z-index:2;
+  animation:unreadPulse 2s ease-in-out infinite;
+}
+
+/* ── Chapter unread indicator in TOC ── */
+.toc-unread{
+  display:inline-block;width:6px;height:6px;
+  border-radius:50%;background:var(--claude-accent);
+  margin-right:6px;vertical-align:middle;
+  box-shadow:0 0 4px rgba(91,127,165,.3);
+}
 </style>
 </head>
 <body>
 
 <div id="shelf">
   <div class="hd">
-    <div><h1>共读小屋</h1><small id="sub">柰柰 &amp; Claude 的阅读角</small></div>
+    <div><h1>共读小屋</h1><small id="sub">柰柰 & Claude 的阅读角</small></div>
     <button class="pri" onclick="openModal()">+ 新书</button>
   </div>
-  <div id="main" style="padding:24px 16px"></div>
+  <div id="main" style="padding:28px 20px"></div>
 </div>
 
 <div id="reader" style="display:none"></div>
@@ -85,9 +329,9 @@ input:focus,textarea:focus{outline:none;border-color:#B8860B!important}
     <label>书名</label><input type="text" id="m-title">
     <label>作者（选填）</label><input type="text" id="m-author">
     <label>上传 TXT 文件</label>
-    <input type="file" accept=".txt" id="m-file" style="font-size:12px;margin-top:4px" onchange="onFile(this)">
-    <div id="m-info" style="font-size:12px;color:#8C7B6B;margin-top:6px"></div>
-    <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:16px">
+    <input type="file" accept=".txt" id="m-file" style="font-size:12px;margin-top:6px" onchange="onFile(this)">
+    <div id="m-info" style="font-size:12px;color:var(--text-muted);margin-top:8px"></div>
+    <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:20px">
       <button class="btn" onclick="closeModal()">取消</button>
       <button class="pri" id="m-go" onclick="upload()">开始阅读</button>
     </div>
@@ -111,6 +355,35 @@ var _showA = true;
 var _openP = -1;
 var _poll = null;
 var _cloud = false;
+
+// ── Unread tracking ──
+function getReadKey(chapterId) { return "cr4-read-" + chapterId; }
+
+function getLastReadIds(chapterId) {
+  try {
+    var raw = localStorage.getItem(getReadKey(chapterId));
+    return raw ? JSON.parse(raw) : [];
+  } catch(e) { return []; }
+}
+
+function markChapterRead(chapterId, annos) {
+  var claudeIds = annos.filter(function(a){ return a.author === "claude"; }).map(function(a){ return a.id; });
+  try { localStorage.setItem(getReadKey(chapterId), JSON.stringify(claudeIds)); } catch(e) {}
+}
+
+function getUnreadClaudeAnnos(chapterId, annos) {
+  var readIds = getLastReadIds(chapterId);
+  return annos.filter(function(a){
+    return a.author === "claude" && readIds.indexOf(a.id) === -1;
+  });
+}
+
+function getUnreadParagraphs(chapterId, annos) {
+  var unread = getUnreadClaudeAnnos(chapterId, annos);
+  var pis = {};
+  unread.forEach(function(a){ pis[a.paragraph_index] = true; });
+  return pis;
+}
 
 function esc(s) { var d = document.createElement("div"); d.textContent = s; return d.innerHTML; }
 
@@ -147,17 +420,9 @@ function supaFetch(path, method, body) {
   });
 }
 
-// ── Helper: save scroll position ──
-function getScroll() {
-  var sc = document.getElementById("rscroll");
-  return sc ? sc.scrollTop : 0;
-}
-function setScroll(val) {
-  var sc = document.getElementById("rscroll");
-  if (sc) sc.scrollTop = val;
-}
+function getScroll() { var sc = document.getElementById("rscroll"); return sc ? sc.scrollTop : 0; }
+function setScroll(val) { var sc = document.getElementById("rscroll"); if (sc) sc.scrollTop = val; }
 
-// ── Helper: refresh reader keeping scroll & open panel ──
 function refreshReader() {
   var scrollPos = getScroll();
   var savedP = _openP;
@@ -203,7 +468,6 @@ function upload() {
   if (_cloud) {
     supaFetch("books", "POST", {title:title, author:author||null}).then(function(res) {
       var book = res[0];
-      var uploaded = 0;
       var batchSize = 20;
       function uploadBatch(start) {
         if (start >= chs.length) {
@@ -247,7 +511,7 @@ function showShelf() {
   document.getElementById("reader").style.display = "none";
   document.getElementById("shelf").style.display = "block";
   var el = document.getElementById("main");
-  el.innerHTML = '<div style="text-align:center;padding:40px;color:#8C7B6B">加载中...</div>';
+  el.innerHTML = '<div style="text-align:center;padding:60px;color:var(--text-muted)"><div style="font-size:24px;margin-bottom:8px">...</div>加载中</div>';
 
   supaFetch("books?order=created_at.desc", "GET").then(function(data) {
     _books = data; _cloud = true;
@@ -264,19 +528,28 @@ function showShelf() {
 function renderShelf() {
   var el = document.getElementById("main");
   if (_books.length === 0) {
-    el.innerHTML = '<div class="empty"><div style="font-size:44px;margin-bottom:8px">📚</div><h3 style="font-family:Noto Serif SC,serif;font-size:17px">书架还是空的</h3><p>上传 TXT 开始共读之旅</p><button class="pri" onclick="openModal()">上传第一本书</button></div>';
+    el.innerHTML = '<div class="empty"><div class="icon">📚</div><h3>书架还是空的</h3><p>上传一本 TXT，开始我们的共读之旅</p><button class="pri" onclick="openModal()">上传第一本书</button></div>';
     return;
   }
-  var cs = ["#8B7355","#6B7B5A","#5B6B8A","#8A5B6B","#7B6B8A"];
-  var h = '<div style="font-family:Noto Serif SC,serif;font-size:14px;color:#8C7B6B;letter-spacing:1px">我们的书架 · ' + _books.length + ' 本</div><div class="grid">';
+  var cs = [
+    ["#7B6B55","#9B8B6F"],
+    ["#5A6B4A","#7A8B6A"],
+    ["#4A5A7A","#6A7A9A"],
+    ["#7A4A5B","#9A6A7B"],
+    ["#6B5A7A","#8B7A9A"],
+    ["#5A7B7B","#7A9B9B"],
+  ];
+  var h = '<div class="shelf-title">我们的书架 · ' + _books.length + ' 本</div><div class="grid">';
   for (var i = 0; i < _books.length; i++) {
-    var b = _books[i], co = cs[b.title.length % cs.length];
-    h += '<div style="position:relative">';
-    h += '<div class="card" style="background:linear-gradient(135deg,'+co+','+co+'BB)" onclick="openBook('+i+')">';
-    h += '<div class="sp"></div><span>' + esc(b.title) + '</span>';
+    var b = _books[i], ci = b.title.length % cs.length, co = cs[ci];
+    h += '<div class="card-wrap">';
+    h += '<div class="card" style="background:linear-gradient(145deg,'+co[0]+','+co[1]+')" onclick="openBook('+i+')">';
+    h += '<div class="sp"></div><div class="spine-lines"></div>';
+    h += '<span>' + esc(b.title) + '</span>';
     if (b.author) h += '<small>' + esc(b.author) + '</small>';
     h += '</div>';
-    h += '<button class="del" onclick="event.stopPropagation();delBook('+i+')">×</button></div>';
+    h += '<button class="del" onclick="event.stopPropagation();delBook('+i+')">×</button>';
+    h += '</div>';
   }
   h += '</div>';
   el.innerHTML = h;
@@ -332,6 +605,8 @@ function showReader() {
   document.getElementById("shelf").style.display = "none";
   var ch = _chs[_ci]; if (!ch) return;
   var paras = ch.content.split(/\n+/).filter(function(p){ return p.trim(); });
+  var unreadParas = getUnreadParagraphs(ch.id, _annos);
+  var hasAnyUnread = Object.keys(unreadParas).length > 0;
 
   var h = '<div class="rhd">';
   h += '<button class="sm" onclick="backToShelf()">← 书架</button>';
@@ -341,14 +616,17 @@ function showReader() {
   h += '<button class="sm" onclick="showToc()">目录</button>';
   h += '</div>';
 
-  h += '<div id="rscroll" style="overflow-y:auto;padding:24px 14px;height:calc(100vh - 50px);height:calc(100dvh - 50px);-webkit-overflow-scrolling:touch;display:flex;justify-content:center">';
-  h += '<div style="max-width:600px;width:100%">';
+  h += '<div id="rscroll" style="overflow-y:auto;padding:28px 16px;height:calc(100vh - 52px);height:calc(100dvh - 52px);-webkit-overflow-scrolling:touch;display:flex;justify-content:center">';
+  h += '<div style="max-width:620px;width:100%;padding-left:20px">';
   h += '<h2 class="cht">' + esc(ch.title) + '</h2>';
 
   for (var i = 0; i < paras.length; i++) {
     var pa = _annos.filter(function(a){ return a.paragraph_index === i; });
     var has = pa.length > 0;
-    h += '<p class="pa' + (has?' hl':'') + '" onclick="toggleP('+i+')">' + esc(paras[i]);
+    var isUnread = unreadParas[i];
+    h += '<p class="pa' + (has?' hl':'') + '" onclick="toggleP('+i+')">';
+    if (isUnread && _showA) h += '<span class="unread-dot"></span>';
+    h += esc(paras[i]);
     if (has) h += '<span class="bc">' + pa.length + '条</span>';
     h += '</p>';
     h += '<div class="an" id="an-'+i+'" style="display:none">';
@@ -362,13 +640,13 @@ function showReader() {
       h += '<div class="ct">' + esc(a.content) + '</div></div>';
     }
     h += '<div class="cr"><textarea id="ta-'+i+'" placeholder="写下你的想法..."></textarea>';
-    h += '<button class="pri" style="padding:6px 10px;font-size:11px;height:32px;align-self:flex-end" onclick="addAnno('+i+')">发送</button></div>';
+    h += '<button class="send-btn" onclick="addAnno('+i+')">发送</button></div>';
     h += '</div>';
   }
 
   h += '<div class="nv">';
   h += '<button class="btn" style="font-size:12px;opacity:' + (_ci<=0?'.3':'1') + '" onclick="goCh('+(_ci-1)+')">← 上一章</button>';
-  h += '<span style="font-size:11px;color:#8C7B6B">' + (_ci+1) + '/' + _chs.length + '</span>';
+  h += '<span class="page-info">' + (_ci+1) + ' / ' + _chs.length + '</span>';
   h += '<button class="btn" style="font-size:12px;opacity:' + (_ci>=_chs.length-1?'.3':'1') + '" onclick="goCh('+(_ci+1)+')">下一章 →</button>';
   h += '</div></div></div>';
 
@@ -381,11 +659,32 @@ function backToShelf() { stopPoll(); showShelf(); }
 
 function toggleP(i) {
   if (!_showA) return;
+  var ch = _chs[_ci];
   if (_openP >= 0) { var old = document.getElementById("an-" + _openP); if (old) old.style.display = "none"; }
   if (_openP === i) { _openP = -1; return; }
   _openP = i;
   var el = document.getElementById("an-" + i);
   if (el) el.style.display = "block";
+
+  // Mark as read when expanding a paragraph with unread claude annotations
+  var paraAnnos = _annos.filter(function(a){ return a.paragraph_index === i && a.author === "claude"; });
+  if (paraAnnos.length > 0 && ch) {
+    var readIds = getLastReadIds(ch.id);
+    var changed = false;
+    paraAnnos.forEach(function(a){
+      if (readIds.indexOf(a.id) === -1) { readIds.push(a.id); changed = true; }
+    });
+    if (changed) {
+      try { localStorage.setItem(getReadKey(ch.id), JSON.stringify(readIds)); } catch(e) {}
+      // Remove the unread dot for this paragraph
+      var dots = document.querySelectorAll('#an-' + i);
+      var pEl = dots[0] ? dots[0].previousElementSibling : null;
+      if (pEl) {
+        var dot = pEl.querySelector('.unread-dot');
+        if (dot) dot.remove();
+      }
+    }
+  }
 }
 
 function toggleAnno() { _showA = !_showA; _openP = -1; showReader(); }
@@ -432,6 +731,10 @@ function delAnno(aid) {
 
 function goCh(n) {
   if (n < 0 || n >= _chs.length) return;
+  // Mark current chapter fully read before leaving
+  var ch = _chs[_ci];
+  if (ch) markChapterRead(ch.id, _annos);
+
   _ci = n; _openP = -1;
   if (_cloud) { loadAnnos(); }
   else {
@@ -442,7 +745,7 @@ function goCh(n) {
   }
 }
 
-// ── Poll for Claude comments ──
+// ── Poll ──
 function startPoll() {
   stopPoll();
   if (!_cloud) return;
@@ -460,7 +763,7 @@ function stopPoll() { if (_poll) { clearInterval(_poll); _poll = null; } }
 
 // ── TOC ──
 function showToc() {
-  var h = '<div style="display:flex;justify-content:space-between;margin-bottom:10px"><h3>目录</h3><button onclick="hideToc()" style="background:none;border:none;cursor:pointer;color:#8C7B6B;font-size:16px">×</button></div>';
+  var h = '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px"><h3>目录</h3><button onclick="hideToc()" style="background:none;border:none;cursor:pointer;color:var(--text-muted);font-size:18px">×</button></div>';
   for (var i = 0; i < _chs.length; i++) {
     h += '<div class="toc-i' + (i===_ci?' cur':'') + '" onclick="goCh('+i+');hideToc()">' + esc(_chs[i].title) + '</div>';
   }
@@ -473,7 +776,6 @@ function hideToc() {
   document.getElementById("toc-bg").style.display = "none";
 }
 
-// Global
 window.openModal=openModal; window.closeModal=closeModal; window.onFile=onFile; window.upload=upload;
 window.showShelf=showShelf; window.openBook=openBook; window.delBook=delBook;
 window.backToShelf=backToShelf; window.toggleP=toggleP; window.toggleAnno=toggleAnno;
