@@ -6,7 +6,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <title>共读小屋</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=LXGW+WenKai:wght@300;400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=LXGW+WenKai:wght@300;400;700&family=Ma+Shan+Zheng&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 
@@ -34,7 +34,6 @@
 body{
   font-family:'LXGW WenKai',-apple-system,sans-serif;
   background:var(--bg);color:var(--text);overflow-x:hidden;
-  /* subtle paper texture */
   background-image:
     radial-gradient(ellipse at 20% 50%, rgba(184,134,11,.03) 0%, transparent 50%),
     radial-gradient(ellipse at 80% 20%, rgba(139,115,85,.03) 0%, transparent 50%),
@@ -48,6 +47,14 @@ input:focus,textarea:focus{outline:none;border-color:var(--accent)!important;box
 ::-webkit-scrollbar-track{background:transparent}
 ::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px}
 
+/* ── Decorative flourish SVG (reusable) ── */
+.flourish{
+  display:block;margin:0 auto;
+  width:120px;height:16px;
+  opacity:.35;
+}
+.flourish-sm{width:80px;height:12px;opacity:.25}
+
 /* ── Header ── */
 .hd{
   padding:16px 20px;
@@ -58,7 +65,16 @@ input:focus,textarea:focus{outline:none;border-color:var(--accent)!important;box
   position:sticky;top:0;z-index:10;
   box-shadow:0 1px 8px rgba(139,115,85,.06);
 }
-.hd h1{font-family:'Noto Serif SC',serif;font-size:20px;color:var(--accent);letter-spacing:3px;font-weight:700}
+.hd h1{
+  font-family:'Playfair Display','Noto Serif SC',serif;
+  font-size:22px;color:var(--accent);letter-spacing:3px;font-weight:700;
+  font-style:italic;
+}
+.hd h1 .title-icon{
+  display:inline-block;font-style:normal;margin-right:6px;font-size:18px;
+  animation:gentleSway 4s ease-in-out infinite;
+}
+@keyframes gentleSway{0%,100%{transform:rotate(-3deg)}50%{transform:rotate(3deg)}}
 .hd small{font-size:11px;color:var(--text-muted);display:block;margin-top:3px;letter-spacing:.5px}
 
 /* ── Buttons ── */
@@ -68,8 +84,16 @@ input:focus,textarea:focus{outline:none;border-color:var(--accent)!important;box
   color:#fff;font-size:13px;cursor:pointer;font-weight:600;
   box-shadow:0 2px 8px rgba(184,134,11,.2);
   letter-spacing:.5px;
+  position:relative;overflow:hidden;
+}
+.pri::after{
+  content:'';position:absolute;top:0;left:-100%;
+  width:50%;height:100%;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.2),transparent);
+  transition:left .5s ease;
 }
 .pri:active{transform:scale(.97)}
+.pri:active::after{left:100%}
 
 .btn{
   padding:8px 16px;border-radius:20px;
@@ -92,18 +116,29 @@ input:focus,textarea:focus{outline:none;border-color:var(--accent)!important;box
   padding:28px;width:90%;max-width:400px;
   box-shadow:var(--shadow-lg);
   animation:modalIn .25s ease;
+  position:relative;
+  border:1px solid var(--border);
+}
+.box::before{
+  content:'';position:absolute;top:8px;left:8px;right:8px;bottom:8px;
+  border:1px solid rgba(184,134,11,.08);border-radius:10px;
+  pointer-events:none;
 }
 @keyframes modalIn{from{opacity:0;transform:scale(.95) translateY(10px)}to{opacity:1;transform:scale(1) translateY(0)}}
-.box h2{font-family:'Noto Serif SC',serif;font-size:19px;color:var(--accent);margin:0 0 20px;letter-spacing:1px}
+.box h2{font-family:'Ma Shan Zheng','Noto Serif SC',serif;font-size:22px;color:var(--accent);margin:0 0 20px;letter-spacing:2px;text-align:center}
 .box label{font-size:12px;color:var(--text-muted);display:block;margin:12px 0 5px;font-weight:600}
 .box input[type=text]{width:100%;padding:10px 13px;border-radius:10px;border:1px solid var(--border);font-size:14px;background:var(--bg)}
 
 /* ── Book Grid ── */
 .shelf-title{
-  font-family:'Noto Serif SC',serif;font-size:13px;color:var(--text-muted);
+  font-family:'Playfair Display','Noto Serif SC',serif;
+  font-size:13px;color:var(--text-muted);
   letter-spacing:2px;padding:8px 0 4px;
   border-bottom:1px solid var(--border);margin-bottom:22px;
+  font-style:italic;
+  display:flex;align-items:center;gap:8px;
 }
+.shelf-title .shelf-icon{font-style:normal;font-size:15px}
 .grid{display:flex;flex-wrap:wrap;gap:18px;justify-content:flex-start}
 
 .card-wrap{position:relative}
@@ -121,6 +156,14 @@ input:focus,textarea:focus{outline:none;border-color:var(--accent)!important;box
 .card .spine-lines{
   position:absolute;left:6px;top:15%;bottom:15%;width:1px;
   background:repeating-linear-gradient(to bottom,rgba(255,255,255,.12) 0,rgba(255,255,255,.12) 3px,transparent 3px,transparent 8px);
+}
+/* decorative corner on book cards */
+.card::after{
+  content:'';position:absolute;top:8px;right:8px;
+  width:16px;height:16px;
+  border-top:1px solid rgba(255,255,255,.2);
+  border-right:1px solid rgba(255,255,255,.2);
+  border-radius:0 4px 0 0;
 }
 .card span{
   font-family:'Noto Serif SC',serif;font-size:13px;font-weight:700;
@@ -170,16 +213,16 @@ input:focus,textarea:focus{outline:none;border-color:var(--accent)!important;box
   position:relative;
 }
 
-/* ── Chapter title ── */
+/* ── Chapter title with decorative ornament ── */
 .cht{
-  font-family:'Noto Serif SC',serif;font-size:19px;font-weight:700;
-  text-align:center;margin-bottom:28px;color:var(--text);
-  letter-spacing:2px;line-height:1.6;
+  font-family:'Ma Shan Zheng','Noto Serif SC',serif;
+  font-size:22px;font-weight:400;
+  text-align:center;margin-bottom:12px;color:var(--text);
+  letter-spacing:3px;line-height:1.6;
 }
-.cht::after{
-  content:'';display:block;width:36px;height:2px;
-  background:linear-gradient(to right,transparent,var(--accent),transparent);
-  margin:14px auto 0;border-radius:1px;
+.ch-ornament{
+  display:block;text-align:center;margin-bottom:28px;
+  color:var(--accent);opacity:.4;font-size:14px;letter-spacing:8px;
 }
 
 /* ── Paragraph ── */
@@ -255,6 +298,13 @@ input:focus,textarea:focus{outline:none;border-color:var(--accent)!important;box
 .bub .nm{font-size:11px;font-weight:700;letter-spacing:.3px}
 .bub .nm.n{color:var(--nainai-accent)}
 .bub .nm.c{color:var(--claude-accent)}
+.bub .avatar{
+  display:inline-block;width:16px;height:16px;
+  vertical-align:middle;margin-right:4px;
+  border-radius:50%;font-size:10px;line-height:16px;text-align:center;
+}
+.bub .avatar.av-n{background:rgba(160,119,90,.12)}
+.bub .avatar.av-c{background:rgba(91,127,165,.12)}
 .bub .tm{font-size:10px;color:var(--text-muted);margin-left:8px}
 
 .bub .hl2{
@@ -300,11 +350,16 @@ input:focus,textarea:focus{outline:none;border-color:var(--accent)!important;box
   transition:width .3s ease;
 }
 
-/* ── Nav ── */
+/* ── Nav with decorative divider ── */
 .nv{
   display:flex;justify-content:space-between;align-items:center;
   padding:28px 0 60px;
-  border-top:1px solid var(--border);margin-top:32px;
+  margin-top:32px;position:relative;
+}
+.nv::before{
+  content:'\2766  \2766  \2766';
+  position:absolute;top:-6px;left:50%;transform:translateX(-50%);
+  font-size:10px;color:var(--accent);opacity:.25;letter-spacing:6px;
 }
 .nv .page-info{font-size:11px;color:var(--text-muted);letter-spacing:.5px}
 
@@ -317,7 +372,10 @@ input:focus,textarea:focus{outline:none;border-color:var(--accent)!important;box
 }
 @keyframes tocIn{from{transform:translateX(-100%)}to{transform:translateX(0)}}
 .toc-bg{position:fixed;inset:0;background:rgba(0,0,0,.25);z-index:49;backdrop-filter:blur(2px);-webkit-backdrop-filter:blur(2px)}
-.toc h3{font-family:'Noto Serif SC',serif;font-size:15px;color:var(--accent);margin-bottom:14px;letter-spacing:1px}
+.toc h3{
+  font-family:'Ma Shan Zheng','Noto Serif SC',serif;
+  font-size:18px;color:var(--accent);margin-bottom:14px;letter-spacing:2px;
+}
 .toc-i{
   padding:8px 10px;border-radius:8px;font-size:12px;
   cursor:pointer;margin-bottom:3px;line-height:1.5;
@@ -334,9 +392,21 @@ input:focus,textarea:focus{outline:none;border-color:var(--accent)!important;box
 
 /* ── Empty state ── */
 .empty{text-align:center;padding:80px 20px}
-.empty .icon{font-size:48px;margin-bottom:12px}
-.empty h3{font-family:'Noto Serif SC',serif;font-size:18px;margin-bottom:8px;color:var(--text);letter-spacing:1px}
+.empty .deco-book{
+  font-size:52px;margin-bottom:16px;
+  display:inline-block;
+  animation:floatBook 3s ease-in-out infinite;
+}
+@keyframes floatBook{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+.empty h3{
+  font-family:'Ma Shan Zheng','Noto Serif SC',serif;
+  font-size:22px;margin-bottom:8px;color:var(--text);letter-spacing:2px;
+}
 .empty p{font-size:13px;color:var(--text-muted);margin:0 0 20px;line-height:1.8}
+.empty .deco-line{
+  display:block;margin:14px auto 20px;
+  color:var(--accent);opacity:.3;font-size:12px;letter-spacing:6px;
+}
 
 /* ── Reading progress memory indicator ── */
 .last-read{
@@ -353,20 +423,25 @@ input:focus,textarea:focus{outline:none;border-color:var(--accent)!important;box
   background:rgba(250,247,242,.85);
   backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);
   display:flex;flex-direction:column;align-items:center;justify-content:center;
-  gap:12px;
+  gap:16px;
 }
-.loading-dot{
-  width:6px;height:6px;border-radius:50%;
-  background:var(--accent);
-  display:inline-block;margin:0 3px;
-  animation:ldBounce .6s ease-in-out infinite alternate;
+.loading .load-icon{
+  font-size:28px;
+  animation:loadSpin 2s linear infinite;
 }
-.loading-dot:nth-child(2){animation-delay:.15s}
-.loading-dot:nth-child(3){animation-delay:.3s}
-@keyframes ldBounce{from{opacity:.3;transform:translateY(0)}to{opacity:1;transform:translateY(-6px)}}
-.loading span{font-size:12px;color:var(--text-muted);letter-spacing:.5px}
+@keyframes loadSpin{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}
+.loading span{font-size:12px;color:var(--text-muted);letter-spacing:.5px;font-style:italic}
 
-/* ── Mobile: long-press hint ── */
+/* ── Footer watermark ── */
+.footer-mark{
+  text-align:center;padding:24px 0 40px;
+  font-size:10px;color:var(--text-muted);opacity:.4;
+  letter-spacing:2px;
+  font-family:'Playfair Display',serif;
+  font-style:italic;
+}
+
+/* ── Mobile ── */
 @media(max-width:480px){
   .grid{gap:14px}
   .card{width:105px;height:152px;padding:14px 10px}
@@ -376,6 +451,7 @@ input:focus,textarea:focus{outline:none;border-color:var(--accent)!important;box
   .pa .unread-badge{left:-22px;font-size:7px;padding:1px 4px}
   .bub .ct{font-size:13px}
   .toc{width:75vw;max-width:260px}
+  .hd h1{font-size:19px}
 }
 </style>
 </head>
@@ -383,7 +459,7 @@ input:focus,textarea:focus{outline:none;border-color:var(--accent)!important;box
 
 <div id="shelf">
   <div class="hd">
-    <div><h1>共读小屋</h1><small id="sub">柰柰 & Claude 的阅读角</small></div>
+    <div><h1><span class="title-icon">&#x1F3E0;</span>共读小屋</h1><small id="sub">柰柰 & Claude 的阅读角</small></div>
     <button class="pri" onclick="openModal()">+ 新书</button>
   </div>
   <div id="main" style="padding:24px 18px"></div>
@@ -393,7 +469,7 @@ input:focus,textarea:focus{outline:none;border-color:var(--accent)!important;box
 <div id="toc-bg" class="toc-bg" style="display:none" onclick="hideToc()"></div>
 <div id="toc" class="toc" style="display:none"></div>
 <div id="progress" class="progress-wrap" style="display:none"><div class="progress-bar" id="pbar"></div></div>
-<div id="loading" class="loading" style="display:none"><div><span class="loading-dot"></span><span class="loading-dot"></span><span class="loading-dot"></span></div><span>正在翻开...</span></div>
+<div id="loading" class="loading" style="display:none"><div class="load-icon">&#x1F4D6;</div><span>正在翻开...</span></div>
 
 <div id="modal" class="overlay" style="display:none">
   <div class="box">
@@ -467,31 +543,19 @@ function fmtTime(iso) {
 
 // ── Smart chapter parser ──
 function parse(raw) {
-  // Strategy 1: 第X章/回/节/卷/篇
   var result = parseByPattern(raw, /^第[一二三四五六七八九十百千零\d]+[章回节卷篇]/);
   if (result.length > 1) return result;
-
-  // Strategy 2: detect TOC block at file start, use TOC entries as chapter titles
   var tocResult = parseByTOC(raw);
   if (tocResult.length > 1) return tocResult;
-
-  // Strategy 3: Chapter N / CHAPTER
   result = parseByPattern(raw, /^(?:Chapter|CHAPTER|chapter)\s+\d+/i);
   if (result.length > 1) return result;
-
-  // Strategy 4: standalone short lines as headings (surrounded by blank lines)
   var headingResult = parseByHeadings(raw);
   if (headingResult.length > 1) return headingResult;
-
-  // Strategy 5: numbered headings (just a number on its own line)
   result = parseByPattern(raw, /^\d{1,3}$/);
   if (result.length > 1) return result;
-
-  // Strategy 6: if single chapter is too long (>8000 chars), split by paragraph count
   if (raw.trim().length > 8000) {
     return splitBySize(raw, 4000);
   }
-
   return [{t:"全文", c:raw.trim()}];
 }
 
@@ -512,7 +576,6 @@ function parseByPattern(raw, regex) {
 
 function parseByTOC(raw) {
   var lines = raw.split(/\r?\n/);
-  // Look for a "目录" line in the first 60 lines
   var tocStart = -1;
   for (var i = 0; i < Math.min(60, lines.length); i++) {
     if (/^目录\s*$/.test(lines[i].trim()) || /^目\s*录\s*$/.test(lines[i].trim())) {
@@ -521,44 +584,31 @@ function parseByTOC(raw) {
     }
   }
   if (tocStart < 0) return [];
-
-  // Collect TOC entries: consecutive short lines after "目录"
   var tocEntries = [];
   for (var i = tocStart; i < lines.length; i++) {
     var l = lines[i].trim();
     if (!l) continue;
-    if (l.length > 30) break; // long line = end of TOC
-    // Skip meta lines like 封面, 版权, 目录 itself
+    if (l.length > 30) break;
     if (/^(?:封面|版权|目录|前言|序言|序|后记|附录)\s*$/.test(l)) continue;
     tocEntries.push(l);
     if (tocEntries.length > 80) break;
   }
-
   if (tocEntries.length < 2) return [];
-
-  // Now use these entries as chapter titles to split the text
   var out = [];
   var fullText = raw;
   var lastIdx = 0;
   var lastTitle = "前言";
-
   for (var i = 0; i < tocEntries.length; i++) {
     var entry = tocEntries[i];
-    // Find this title in the body (after the TOC area)
-    // Search from a position well past the TOC
     var searchFrom = raw.indexOf(entry, lastIdx > 200 ? lastIdx : 200);
     if (searchFrom < 0) continue;
-
-    // Make sure this is on its own line (heading)
     var lineStart = raw.lastIndexOf('\n', searchFrom);
     var lineEnd = raw.indexOf('\n', searchFrom);
     if (lineEnd < 0) lineEnd = raw.length;
     var fullLine = raw.substring(lineStart + 1, lineEnd).trim();
-    if (fullLine.length > 40) continue; // not a heading
-
+    if (fullLine.length > 40) continue;
     if (lastIdx < searchFrom) {
       var chunk = raw.substring(lastIdx, searchFrom).trim();
-      // Remove TOC block from first chunk
       if (out.length === 0) {
         var tocEnd = raw.indexOf(tocEntries[tocEntries.length - 1]);
         if (tocEnd > 0) {
@@ -573,41 +623,32 @@ function parseByTOC(raw) {
     lastTitle = entry;
     lastIdx = searchFrom;
   }
-
-  // Last chapter
   if (lastIdx < raw.length) {
     var chunk = raw.substring(lastIdx).trim();
-    // Remove the title line from content start
     var nl = chunk.indexOf('\n');
     if (nl > 0 && nl < 60) chunk = chunk.substring(nl).trim();
     if (chunk.length > 50) out.push({t: lastTitle, c: chunk});
   }
-
   return out;
 }
 
 function parseByHeadings(raw) {
   var lines = raw.split(/\r?\n/);
   var candidates = [];
-
   for (var i = 1; i < lines.length - 1; i++) {
     var l = lines[i].trim();
     var prevEmpty = !lines[i-1].trim();
     var nextEmpty = (i + 1 < lines.length) ? !lines[i+1].trim() : true;
     if (l && l.length >= 2 && l.length <= 25 && prevEmpty && nextEmpty) {
-      // Exclude lines that look like dialogue or normal text
       if (/^[""「『]/.test(l)) continue;
       if (/[。，！？；]$/.test(l)) continue;
       candidates.push({line: i, title: l});
     }
   }
-
   if (candidates.length < 2) return [];
-
   var out = [];
   var lastLine = 0;
   var lastTitle = "前言";
-
   for (var i = 0; i < candidates.length; i++) {
     var buf = [];
     for (var j = lastLine; j < candidates[i].line; j++) buf.push(lines[j]);
@@ -620,7 +661,6 @@ function parseByHeadings(raw) {
   for (var j = lastLine; j < lines.length; j++) buf.push(lines[j]);
   var c = buf.join("\n").trim();
   if (c.length > 50) out.push({t: lastTitle, c: c});
-
   return out;
 }
 
@@ -761,14 +801,14 @@ function showShelf() {
 function renderShelf() {
   var el = document.getElementById("main");
   if (_books.length === 0) {
-    el.innerHTML = '<div class="empty"><div class="icon">📚</div><h3>书架还是空的</h3><p>上传一本 TXT，开始我们的共读之旅</p><button class="pri" onclick="openModal()">上传第一本书</button></div>';
+    el.innerHTML = '<div class="empty"><div class="deco-book">📚</div><h3>书架还是空的</h3><span class="deco-line">❧ ☙ ❧</span><p>上传一本 TXT，开始我们的共读之旅</p><button class="pri" onclick="openModal()">上传第一本书</button></div>';
     return;
   }
   var cs = [
     ["#7B6B55","#9B8B6F"],["#5A6B4A","#7A8B6A"],["#4A5A7A","#6A7A9A"],
     ["#7A4A5B","#9A6A7B"],["#6B5A7A","#8B7A9A"],["#5A7B7B","#7A9B9B"],
   ];
-  var h = '<div class="shelf-title">我们的书架 · ' + _books.length + ' 本</div><div class="grid">';
+  var h = '<div class="shelf-title"><span class="shelf-icon">📚</span> 我们的书架 · ' + _books.length + ' 本</div><div class="grid">';
   for (var i = 0; i < _books.length; i++) {
     var b = _books[i], ci = b.title.length % cs.length, co = cs[ci];
     var prog = getProgress(b.id);
@@ -777,12 +817,13 @@ function renderShelf() {
     h += '<div class="sp"></div><div class="spine-lines"></div>';
     h += '<span>' + esc(b.title) + '</span>';
     if (b.author) h += '<small>' + esc(b.author) + '</small>';
-    if (prog > 0) h += '<span class="last-read">读到第' + (prog+1) + '章</span>';
+    if (prog > 0) h += '<span class="last-read">📖 读到第' + (prog+1) + '章</span>';
     h += '</div>';
     h += '<button class="del" onclick="event.stopPropagation();delBook('+i+')">×</button>';
     h += '</div>';
   }
   h += '</div>';
+  h += '<div class="footer-mark">❦ Co-Reading ❦</div>';
   el.innerHTML = h;
 }
 
@@ -846,20 +887,20 @@ function showReader(isRefresh) {
   var paras = ch.content.split(/\n+/).filter(function(p){ return p.trim(); });
   var unreadParas = getUnreadParagraphs(ch.id, _annos);
 
-  // Save reading progress
   saveProgress(_cur.id, _ci);
 
   var h = '<div class="rhd">';
   h += '<button class="sm" onclick="backToShelf()">← 书架</button>';
   h += '<div class="ti"><h3>' + esc(_cur.title) + '</h3>';
   h += '<small>' + esc(ch.title) + ' · ' + (_ci+1) + '/' + _chs.length + '</small></div>';
-  h += '<button class="sm' + (_showA?' on':'') + '" onclick="toggleAnno()">批注</button>';
-  h += '<button class="sm" onclick="showToc()">目录</button>';
+  h += '<button class="sm' + (_showA?' on':'') + '" onclick="toggleAnno()">✍ 批注</button>';
+  h += '<button class="sm" onclick="showToc()">☰ 目录</button>';
   h += '</div>';
 
   h += '<div class="read-area" id="rscroll" onscroll="onReadScroll()">';
   h += '<div class="read-inner">';
   h += '<h2 class="cht">' + esc(ch.title) + '</h2>';
+  h += '<div class="ch-ornament">• ◆ •</div>';
 
   for (var i = 0; i < paras.length; i++) {
     var pa = _annos.filter(function(a){ return a.paragraph_index === i; });
@@ -879,9 +920,10 @@ function showReader(isRefresh) {
       var ubub = ic && isAnnoUnread(ch.id, a);
       h += '<div class="bub ' + (ic?'cl':'me') + (ubub?' unread-bub':'') + '">';
       h += '<button class="dl" onclick="event.stopPropagation();delAnno(\''+a.id+'\')">删除</button>';
+      h += '<span class="avatar ' + (ic?'av-c':'av-n') + '">' + (ic?'🦀':'🐾') + '</span>';
       h += '<span class="nm ' + (ic?'c':'n') + '">' + (ic?'Claude':'柰柰') + '</span>';
       h += '<span class="tm">' + fmtTime(a.created_at) + '</span>';
-      if (a.highlighted_text) h += '<div class="hl2 ' + (ic?'c':'n') + '">"' + esc(a.highlighted_text.slice(0,50)) + (a.highlighted_text.length>50?'...':'') + '"</div>';
+      if (a.highlighted_text) h += '<div class="hl2 ' + (ic?'c':'n') + '">“' + esc(a.highlighted_text.slice(0,50)) + (a.highlighted_text.length>50?'...':'') + '”</div>';
       h += '<div class="ct">' + esc(a.content) + '</div></div>';
     }
     h += '<div class="cr"><textarea id="ta-'+i+'" placeholder="写下你的想法..."></textarea>';
@@ -893,7 +935,9 @@ function showReader(isRefresh) {
   h += '<button class="btn" style="font-size:12px;opacity:' + (_ci<=0?'.3':'1') + '" onclick="goCh('+(_ci-1)+')">← 上一章</button>';
   h += '<span class="page-info">' + (_ci+1) + ' / ' + _chs.length + '</span>';
   h += '<button class="btn" style="font-size:12px;opacity:' + (_ci>=_chs.length-1?'.3':'1') + '" onclick="goCh('+(_ci+1)+')">下一章 →</button>';
-  h += '</div></div></div>';
+  h += '</div>';
+  h += '<div class="footer-mark">❦ Co-Reading ❦</div>';
+  h += '</div></div>';
 
   document.getElementById("reader").innerHTML = h;
   document.getElementById("reader").style.display = "block";
@@ -927,7 +971,6 @@ function toggleP(i) {
   var el = document.getElementById("an-" + i);
   if (el) el.style.display = "block";
 
-  // Mark as read
   var paraAnnos = _annos.filter(function(a){ return a.paragraph_index === i && a.author === "claude"; });
   if (paraAnnos.length > 0 && ch) {
     var readIds = getLastReadIds(ch.id);
@@ -943,7 +986,6 @@ function toggleP(i) {
         var badge = pEl.querySelector('.unread-badge');
         if (bar) bar.remove();
         if (badge) badge.remove();
-        // Remove glow border from bubbles
         var ubs = el.querySelectorAll('.unread-bub');
         for (var k = 0; k < ubs.length; k++) ubs[k].classList.remove('unread-bub');
       }
@@ -1018,7 +1060,7 @@ function stopPoll() { if (_poll) { clearInterval(_poll); _poll = null; } }
 
 // ── TOC ──
 function showToc() {
-  var h = '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px"><h3>目录</h3><button onclick="hideToc()" style="background:none;border:none;cursor:pointer;color:var(--text-muted);font-size:18px">×</button></div>';
+  var h = '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px"><h3>☰ 目录</h3><button onclick="hideToc()" style="background:none;border:none;cursor:pointer;color:var(--text-muted);font-size:18px">×</button></div>';
   for (var i = 0; i < _chs.length; i++) {
     var isCur = i === _ci;
     h += '<div class="toc-i' + (isCur?' cur':'') + '" onclick="goCh('+i+');hideToc()">';
